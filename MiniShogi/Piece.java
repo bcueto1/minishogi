@@ -36,5 +36,5 @@ public class Piece {
     public void setTeam(String newTeam) {
     	this.team = newTeam;
     }
-
+    
 }
