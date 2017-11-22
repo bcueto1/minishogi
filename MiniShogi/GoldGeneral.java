@@ -8,10 +8,10 @@ public class GoldGeneral extends Piece {
 
 	@Override
 	public boolean canMove(Position[][] board, int newX, int newY) {
-		int xPos = this.getX(), yPos = this.getY();
-		if (xPos == newX && yPos == newY) {
+		
+		if (!super.canMove(board, newX, newY))
 			return false;
-		}
+		int xPos = this.getX(), yPos = this.getY();
 		
 		if (this.getTeam() == "upper") {
 			if (newX == xPos - 1) {

@@ -38,7 +38,17 @@ public abstract class Piece implements Cloneable {
     	return (Piece) this.clone();
     }
     
-    public abstract boolean canMove(Position[][] board, int newX, int newY);
+    public boolean canMove(Position[][] board, int newX, int newY) {
+    	int xPos = this.getX(), yPos = this.getY();
+		if (xPos == newX && yPos == newY)
+			return false;
+		if (newX >= 5 || newX < 0 || newY >= 5 || newY < 0)
+			return false;
+		if (board[newX][newY].getPiece().getTeam().equals(this.team))
+			return false;
+		
+		return true;
+    }
     
     public void move(Position[][] board, int newX, int newY) {
     	if (this.canMove(board, newX, newY)) {

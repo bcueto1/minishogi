@@ -9,6 +9,8 @@ public class Bishop extends Piece {
 	@Override
 	public boolean canMove(Position[][] board, int newX, int newY) {
 		
+		if (!super.canMove(board, newX, newY))
+			return false;
 		int xPos = this.getX(), yPos = this.getY();
 		// Bishop move cannot result in same x or y
 		if (xPos == newX || yPos == newY) {

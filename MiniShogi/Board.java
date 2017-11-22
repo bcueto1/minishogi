@@ -87,21 +87,4 @@ public class Board {
 
     }
 
-    /*
-	public void movePiece(Piece piece, String newPosition) {
-		int newX = this.convertXPosition(newPosition);
-		int newY = this.convertYPosition(newPosition);
-		int oldX = this.convertXPosition(piece.getPosition());
-		int oldY = this.convertYPosition(piece.getPosition());
-
-		
-
-    } */
-
-
-
-	
-	
-
-
 }
