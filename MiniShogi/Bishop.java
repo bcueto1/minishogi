@@ -6,10 +6,12 @@ public class Bishop extends Piece {
 		// TODO Auto-generated constructor stub
 	}
 	
+	@Override
 	public boolean canMove(Position[][] board, int newX, int newY) {
 		
 		int xPos = this.getX(), yPos = this.getY();
-		if (xPos == newX && yPos == newY) {
+		// Bishop move cannot result in same x or y
+		if (xPos == newX || yPos == newY) {
 			return false;
 		}
 		
@@ -94,13 +96,6 @@ public class Bishop extends Piece {
 		}
 		
 		return false;
-	}
-	
-	public void move(Position[][] board, int newX, int newY) {
-		if (this.canMove(board, newX, newY)) {
-			this.setX(newX);
-			this.setY(newY);
-		}
 	}
 
 }

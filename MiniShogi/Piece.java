@@ -40,6 +40,11 @@ public abstract class Piece implements Cloneable {
     
     public abstract boolean canMove(Position[][] board, int newX, int newY);
     
-    public abstract void move(Position[][] board, int newX, int newY);
+    public void move(Position[][] board, int newX, int newY) {
+    	if (this.canMove(board, newX, newY)) {
+			this.setX(newX);
+			this.setY(newY);
+		}
+    }
     
 }
