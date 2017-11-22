@@ -6,8 +6,10 @@ public class King extends Piece {
 		super(xPosition, yPosition, team);
 		
 	}
+	
 
-	public boolean canMove(int newX, int newY) {
+	@Override
+	public boolean canMove(Position[][] board, int newX, int newY) {
 		
 		int xPos = this.getX(), yPos = this.getY();
 		if (xPos == newX && yPos == newY) {
@@ -19,13 +21,6 @@ public class King extends Piece {
 		}
 		
 		return true;
-	}
-	
-	public void move(int newX, int newY) {
-		if (this.canMove(newX, newY)) {
-			this.setX(newX);
-			this.setY(newY);
-		}
 	}
 
 }
