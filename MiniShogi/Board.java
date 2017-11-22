@@ -2,9 +2,14 @@ import java.util.*;
 
 public class Board {
 
-	private Piece[] board;
+	private Position[][] board;
 	
-	public Board(Piece[] board) {
+	public Board() {
+		board = new Position[5][5];
+		
+	}
+	
+	public Board(Position[][] board) {
 		this.board = board;
 	}
 

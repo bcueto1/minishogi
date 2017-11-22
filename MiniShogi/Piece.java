@@ -1,32 +1,29 @@
-
-
 public class Piece {
 
-    private String position;
-    private String type;
+    private int x;
+    private int y;
     private String team;
 
-    public Piece(String position, String type, String team) {
-        this.position = position;
-        this.type = type;
+    public Piece(int xPosition, int yPosition, String team) {
+        this.x = xPosition;
+        this.y = yPosition;
         this.team = team;
     }
 
-
-    public String getPosition() {
-        return this.position;
+    public int getX() {
+    	return this.x;
     }
-
-    public void setPosition(String newPosition) {
-        this.position = newPosition;
+    
+    public void setX(int x) {
+    	this.x = x;
     }
-
-    public String getType() {
-        return this.type;
+    
+    public int getY() {
+    	return this.y;
     }
-
-    public void setType(String newType) {
-        this.type = newType;
+    
+    public void setY(int y) {
+    	this.y = y;
     }
     
     public String getTeam() {
