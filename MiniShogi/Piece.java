@@ -1,4 +1,4 @@
-public class Piece {
+public abstract class Piece implements Cloneable {
 
     private int x;
     private int y;
@@ -33,5 +33,13 @@ public class Piece {
     public void setTeam(String newTeam) {
     	this.team = newTeam;
     }
+    
+    public Piece recreate() throws CloneNotSupportedException {
+    	return (Piece) this.clone();
+    }
+    
+    public abstract boolean canMove(Position[][] board, int newX, int newY);
+    
+    public abstract void move(Position[][] board, int newX, int newY);
     
 }
