@@ -12,8 +12,6 @@ public class Board {
 		for (int i = 0; i < this.board.length; i++) {
 			for (int j = 0; j < this.board[0].length; j++) {
 				Position pos = new Position(i,j);
-				
-				
 				this.board[i][j] = pos;
 			}
 		}
@@ -40,7 +38,7 @@ public class Board {
 		return this.board;
 	}
 	
-	public void movePiece(int x, int y, int newX, int newY) {
+	public void movePiece(int x, int y, int newX, int newY) throws IllegalMoveException {
 		Piece piece = null;
 		if (this.board[x][y].hasPiece()) {
 			try {
@@ -53,13 +51,13 @@ public class Board {
 				
 			}
 		} else {
-			// Illegal Move there's no piece
+			throw new IllegalMoveException();
 		}	
 	}
 	
-	public void checkPiecePromoted(Piece piece) {
+	public void checkPiecePromoted(Piece piece) throws IllegalMoveException {
 		if (piece.getType().equals("king"))
-			return;
+			throw new IllegalMoveException();
 		if (piece.getTeam().equals("upper")) {
 			if (piece.getX() == 4) {
 				piece.promote();
@@ -78,6 +76,7 @@ public class Board {
 				capturedPiece.setTeam("lower");
 			else if (capturedPiece.getTeam().equals("lower"))
 				capturedPiece.setTeam("upper");
+			capturedPiece.demote();
 			
 			
 			capturedPiece.setX(-1);
@@ -85,7 +84,6 @@ public class Board {
 			player.capturePiece(capturedPiece);
 			this.board[x][y].removePiece();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -95,17 +93,38 @@ public class Board {
 		
 	}
 	
-	public void dropPieceToBoard(String type, Player player, int x, int y) {
+	public void dropPieceToBoard(String type, Player player, int x, int y) throws IllegalMoveException {
 		if (this.board[x][y].hasPiece()) {
-			return;
-		} else {
-			Piece piece = player.dropPiece(type);
-			if (piece == null)
-				return;
-			piece.setX(x);
-			piece.setY(y);
-			this.board[x][y].setPiece(piece);
+			throw new IllegalMoveException();
 		}
+		// Add support for dropping a piece in promotion zone and not being allowed to promote it
+		if (type.equals("pawn")) {
+			if (player.getTeam().equals("upper")) {
+				if (x == 4)
+					throw new IllegalMoveException();
+				for (int i = 0; i < 5; i++) {
+					if (this.board[i][y].getPiece().getType().equals("pawn") && this.board[i][y].getPiece().getTeam().equals("upper")) {
+						throw new IllegalMoveException();
+					}
+				}
+			}
+			if (player.getTeam().equals("lower")) {
+				if (x == 0)
+					throw new IllegalMoveException();
+				for (int i = 0; i < 5; i++) {
+					if (this.board[i][y].getPiece().getType().equals("pawn") && this.board[i][y].getPiece().getTeam().equals("lower")) {
+						throw new IllegalMoveException();
+					}
+				}
+			}
+		}
+		Piece piece = player.dropPiece(type);
+		if (piece == null)
+			throw new IllegalMoveException();
+		if (type.equals("pawn"))
+		piece.setX(x);
+		piece.setY(y);
+		this.board[x][y].setPiece(piece);
 	}
 
 	public int convertXPosition(String position) {

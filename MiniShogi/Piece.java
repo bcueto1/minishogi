@@ -53,6 +53,10 @@ public abstract class Piece implements Cloneable {
     	this.isPromoted = true;
     }
     
+    public void demote() {
+    	this.isPromoted = false;
+    }
+    
     public Piece recreate() throws CloneNotSupportedException {
     	return (Piece) this.clone();
     }
@@ -71,10 +75,12 @@ public abstract class Piece implements Cloneable {
 		return true;
     }
     
-    public void move(Position[][] board, int newX, int newY) {
+    public void move(Position[][] board, int newX, int newY) throws IllegalMoveException {
     	if (this.canMove(board, newX, newY)) {
 			this.setX(newX);
 			this.setY(newY);
+		} else {
+			throw new IllegalMoveException();
 		}
     }
     
