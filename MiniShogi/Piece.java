@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Piece implements Cloneable {
 
     private int x;
@@ -5,12 +7,14 @@ public abstract class Piece implements Cloneable {
     private String type;
     private String team;
     private boolean isPromoted;
+    protected ArrayList<Position> possibleMoves;
 
     public Piece(int xPosition, int yPosition, String team) {
         this.x = xPosition;
         this.y = yPosition;
         this.team = team;
         this.isPromoted = false;
+        this.possibleMoves = new ArrayList<>();
     }
 
     public int getX() {
@@ -61,18 +65,31 @@ public abstract class Piece implements Cloneable {
     	return (Piece) this.clone();
     }
     
+    protected void checkPossibleMove(Position[][] board, int newX, int newY) {
+    	if (board[newX][newY].hasPiece()) {
+    		if (board[newX][newY].getPiece().getType().equals("king"))
+    			return;
+    		if (board[newX][newY].getPiece().getTeam().equals(this.getTeam()))
+    			return;
+    	}
+		if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5)
+			this.possibleMoves.add(board[newX][newY]);
+	}
+    
+    public abstract void updatePossibleMoves(Position[][] board);
+
+    
     public boolean canMove(Position[][] board, int newX, int newY) {
-    	int xPos = this.getX(), yPos = this.getY();
-		if (xPos == newX && yPos == newY)
-			return false;
-		if (newX >= 5 || newX < 0 || newY >= 5 || newY < 0)
-			return false;
-		if (board[newX][newY].getPiece().getTeam().equals(this.team))
-			return false;
-		if (board[newX][newY].getPiece().getType().equals("king"))
-			return false;
-		
-		return true;
+    	
+    	for (Position position: this.possibleMoves) {
+    		int tempX = position.getX();
+    		int tempY = position.getY();
+    		
+    		if (tempX == newX && tempY == newY)
+    			return true;
+    	}
+    	
+    	return false;
     }
     
     public void move(Position[][] board, int newX, int newY) throws IllegalMoveException {

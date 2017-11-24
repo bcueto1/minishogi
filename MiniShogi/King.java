@@ -4,19 +4,23 @@ public class King extends Piece {
 		super(xPosition, yPosition, team);
 		this.setType("king");
 	}
-	
+
 
 	@Override
-	public boolean canMove(Position[][] board, int newX, int newY) {
-		if (!super.canMove(board, newX, newY))
-			return false;
+	public void updatePossibleMoves(Position[][] board) {
+		
 		int xPos = this.getX(), yPos = this.getY();
+		this.possibleMoves.clear();
 		
-		if (Math.abs(xPos - newX) > 1 || Math.abs(yPos - newY) > 1) {
-			return false;
-		}
+		checkPossibleMove(board, xPos + 1, yPos);
+		checkPossibleMove(board, xPos + 1, yPos + 1);
+		checkPossibleMove(board, xPos + 1, yPos - 1);
+		checkPossibleMove(board, xPos - 1, yPos);
+		checkPossibleMove(board, xPos - 1, yPos + 1);
+		checkPossibleMove(board, xPos - 1, yPos - 1);
+		checkPossibleMove(board, xPos, yPos + 1);
+		checkPossibleMove(board, xPos, yPos - 1);
 		
-		return true;
 	}
 
 }

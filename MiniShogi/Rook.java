@@ -5,101 +5,69 @@ public class Rook extends Piece {
 		super(xPosition, yPosition, team);
 		this.setType("rook");
 	}
-
+	
 	@Override
-	public boolean canMove(Position[][] board, int newX, int newY) {
+	public void updatePossibleMoves(Position[][] board) {
 		
-		if (!super.canMove(board, newX, newY))
-			return false;
 		int xPos = this.getX(), yPos = this.getY();
+		this.possibleMoves.clear();
 		
 		if (this.isPromoted()) {
-			if (Math.abs(xPos - newX) <= 1 && Math.abs(yPos - newY) <= 1)
-				return true;
+			checkPossibleMove(board, xPos + 1, yPos);
+			checkPossibleMove(board, xPos + 1, yPos + 1);
+			checkPossibleMove(board, xPos + 1, yPos - 1);
+			checkPossibleMove(board, xPos - 1, yPos);
+			checkPossibleMove(board, xPos - 1, yPos + 1);
+			checkPossibleMove(board, xPos - 1, yPos - 1);
+			checkPossibleMove(board, xPos, yPos + 1);
+			checkPossibleMove(board, xPos, yPos - 1);
 		}
 		
-		if (xPos > newX) {
+		xPos = xPos - 1;
+		while (xPos >= 0) {
+			if (board[xPos][yPos].hasPiece()) {
+				checkPossibleMove(board, xPos, yPos);
+				break;
+			}
+			checkPossibleMove(board, xPos, yPos);
 			xPos = xPos - 1;
-			while(xPos >= 0) {
-				// If the position actually has a piece
-				if (board[xPos][yPos].hasPiece()) {
-					if (xPos == newX && yPos == newY) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					// If there is no piece
-					if (xPos == newX && yPos == newY)
-						return true;
-				}
-				
-				xPos = xPos -1;
-			}
 		}
-		if (xPos < newX) {
+		
+		xPos = this.getX() + 1;
+		while (xPos < 5) {
+			if (board[xPos][yPos].hasPiece()) {
+				checkPossibleMove(board, xPos, yPos);
+				break;
+			}
+			checkPossibleMove(board, xPos, yPos);
 			xPos = xPos + 1;
-			while(xPos < 5) {
-				// If the position actually has a piece
-				if (board[xPos][yPos].hasPiece()) {
-					if (xPos == newX && yPos == newY) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					// If there is no piece
-					if (xPos == newX && yPos == newY)
-						return true;
-				}
-				
-				xPos = xPos + 1;
-			}
 		}
 		
-		if (yPos > newY) {
+		yPos = yPos - 1;
+		while (yPos >= 0) {
+			if (board[xPos][yPos].hasPiece()) {
+				checkPossibleMove(board, xPos, yPos);
+				break;
+			}
+			checkPossibleMove(board, xPos, yPos);
 			yPos = yPos - 1;
-			while(yPos >= 0) {
-				// If the position actually has a piece
-				if (board[xPos][yPos].hasPiece()) {
-					if (xPos == newX && yPos == newY) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					// If there is no piece
-					if (xPos == newX && yPos == newY)
-						return true;
-				}
-				
-				yPos = yPos - 1;
-			}
 		}
 		
-		if (yPos < newY) {
+		yPos = this.getY() + 1;
+		while (yPos < 5) {
+			if (board[xPos][yPos].hasPiece()) {
+				checkPossibleMove(board, xPos, yPos);
+				break;
+			}
+			checkPossibleMove(board, xPos, yPos);
 			yPos = yPos + 1;
-			while(yPos < 5) {
-				// If the position actually has a piece
-				if (board[xPos][yPos].hasPiece()) {
-					if (xPos == newX && yPos == newY) {
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					// If there is no piece
-					if (xPos == newX && yPos == newY)
-						return true;
-				}
-				
-				yPos = yPos + 1;
-			}
 		}
 		
 		
-		return false;
 	}
+
+
+	
 	
 
 }

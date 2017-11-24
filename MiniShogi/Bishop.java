@@ -8,37 +8,30 @@ public class Bishop extends Piece {
 	}
 	
 	@Override
-	public boolean canMove(Position[][] board, int newX, int newY) {
+	public void updatePossibleMoves(Position[][] board) {
 		
-		if (!super.canMove(board, newX, newY))
-			return false;
 		int xPos = this.getX(), yPos = this.getY();
-		// Bishop move cannot result in same x or y
-		if (xPos == newX || yPos == newY) {
-			return false;
-		}
+		this.possibleMoves.clear();
 		
 		if (this.isPromoted()) {
-			if (Math.abs(xPos - newX) <= 1 && Math.abs(yPos - newY) <= 1)
-				return true;
+			checkPossibleMove(board, xPos + 1, yPos);
+			checkPossibleMove(board, xPos + 1, yPos + 1);
+			checkPossibleMove(board, xPos + 1, yPos - 1);
+			checkPossibleMove(board, xPos - 1, yPos);
+			checkPossibleMove(board, xPos - 1, yPos + 1);
+			checkPossibleMove(board, xPos - 1, yPos - 1);
+			checkPossibleMove(board, xPos, yPos + 1);
+			checkPossibleMove(board, xPos, yPos - 1);
 		}
 		
 		xPos = xPos + 1;
 		yPos = yPos + 1;
 		while(xPos < 5 && yPos < 5) {
-			// If the position actually has a piece
 			if (board[xPos][yPos].hasPiece()) {
-				if (xPos == newX && yPos == newY) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				// If there is no piece
-				if (xPos == newX && yPos == newY)
-					return true;
+				checkPossibleMove(board, xPos, yPos);
+				break;
 			}
-			
+			checkPossibleMove(board, xPos, yPos);
 			xPos = xPos + 1;
 			yPos = yPos + 1;
 		}
@@ -48,17 +41,11 @@ public class Bishop extends Piece {
 		while(xPos < 5 && yPos >= 0) {
 			// If the position actually has a piece
 			if (board[xPos][yPos].hasPiece()) {
-				if (xPos == newX && yPos == newY) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				// If there is no piece
-				if (xPos == newX && yPos == newY)
-					return true;
-			}
+				checkPossibleMove(board, xPos, yPos);
+				break;
+			} 
 			
+			checkPossibleMove(board, xPos, yPos);
 			xPos = xPos + 1;
 			yPos = yPos - 1;
 		}
@@ -68,17 +55,11 @@ public class Bishop extends Piece {
 		while(xPos >= 0 && yPos < 5) {
 			// If the position actually has a piece
 			if (board[xPos][yPos].hasPiece()) {
-				if (xPos == newX && yPos == newY) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				// If there is no piece
-				if (xPos == newX && yPos == newY)
-					return true;
+				checkPossibleMove(board, xPos, yPos);
+				break;
 			}
 			
+			checkPossibleMove(board, xPos, yPos);
 			xPos = xPos - 1;
 			yPos = yPos + 1;
 		}
@@ -88,22 +69,17 @@ public class Bishop extends Piece {
 		while(xPos >= 0 && yPos >= 0) {
 			// If the position actually has a piece
 			if (board[xPos][yPos].hasPiece()) {
-				if (xPos == newX && yPos == newY) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				// If there is no piece
-				if (xPos == newX && yPos == newY)
-					return true;
+				checkPossibleMove(board, xPos, yPos);
+				break;
 			}
 			
+			checkPossibleMove(board, xPos, yPos);
 			xPos = xPos - 1;
 			yPos = yPos - 1;
 		}
-		
-		return false;
 	}
+
+
+	
 
 }

@@ -5,73 +5,52 @@ public class SilverGeneral extends Piece {
 		super(xPosition, yPosition, team);
 		this.setType("silvergeneral");
 	}
-
+	
 	@Override
-	public boolean canMove(Position[][] board, int newX, int newY) {
-		
-		if (!super.canMove(board, newX, newY))
-			return false;
+	public void updatePossibleMoves(Position[][] board) {
 		
 		int xPos = this.getX(), yPos = this.getY();
+		this.possibleMoves.clear();
 		
 		if (this.isPromoted()) {
 			if (this.getTeam() == "upper") {
-				if (newX == xPos - 1) {
-					if (newY == yPos)
-						return true;
-				}
-				if (newX == xPos + 1) {
-					if (newY == yPos || newY == yPos + 1 || newY == yPos -1)
-						return true;
-				}
-				if (newY == yPos + 1 || newY == yPos - 1) {
-					if (newX == xPos)
-						return true;
-				}
+				checkPossibleMove(board, xPos - 1, yPos);
+				checkPossibleMove(board, xPos + 1, yPos + 1);
+				checkPossibleMove(board, xPos + 1, yPos - 1);
+				checkPossibleMove(board, xPos + 1, yPos);
+				checkPossibleMove(board, xPos, yPos + 1);
+				checkPossibleMove(board, xPos, yPos - 1);
 			}
-			
 			if (this.getTeam() == "lower") {
-				if (newX == xPos - 1) {
-					if (newY == yPos || newY == yPos + 1 || newY == yPos - 1)
-						return true;
-				}
-				if (newX == xPos + 1) {
-					if (newY == yPos)
-						return true;
-				}
-				if (newY == yPos + 1 || newY == yPos - 1) {
-					if (newX == xPos)
-						return true;
-				}
+				checkPossibleMove(board, xPos + 1, yPos);
+				checkPossibleMove(board, xPos - 1, yPos + 1);
+				checkPossibleMove(board, xPos - 1, yPos - 1);
+				checkPossibleMove(board, xPos - 1, yPos);
+				checkPossibleMove(board, xPos, yPos + 1);
+				checkPossibleMove(board, xPos, yPos - 1);
 			}
 		} else {
 			if (this.getTeam() == "upper") {
-				if (newX == xPos - 1) {
-					if (newY == yPos + 1 || newY == yPos - 1)
-						return true;
-				}
-				if (newX == xPos + 1) {
-					if (newY == yPos || newY == yPos + 1 || newY == yPos -1)
-						return true;
-				}
+				checkPossibleMove(board, xPos - 1, yPos + 1);
+				checkPossibleMove(board, xPos - 1, yPos - 1);
+				checkPossibleMove(board, xPos + 1, yPos);
+				checkPossibleMove(board, xPos + 1, yPos + 1);
+				checkPossibleMove(board, xPos + 1, yPos - 1);
+			}
+			if (this.getTeam() == "lower") {
+				checkPossibleMove(board, xPos + 1, yPos + 1);
+				checkPossibleMove(board, xPos + 1, yPos - 1);
+				checkPossibleMove(board, xPos - 1, yPos);
+				checkPossibleMove(board, xPos - 1, yPos + 1);
+				checkPossibleMove(board, xPos - 1, yPos - 1);
 			}
 			
-			if (this.getTeam() == "lower") {
-				if (newX == xPos - 1) {
-					if (newY == yPos || newY == yPos + 1 || newY == yPos - 1)
-						return true;
-				}
-				if (newX == xPos + 1) {
-					if (newY == yPos + 1 || newY == yPos -1)
-						return true;
-				}
-			}
 		}
 		
-		
-		
-		return false;
 	}
+
+
+	
 	
 	
 

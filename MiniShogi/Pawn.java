@@ -5,59 +5,43 @@ public class Pawn extends Piece {
 		super(xPosition, yPosition, team);
 		this.setType("pawn");
 	}
-
+	
 	@Override
-	public boolean canMove(Position[][] board, int newX, int newY) {
+	public void updatePossibleMoves(Position[][] board) {
 		
-		if (!super.canMove(board, newX, newY))
-			return false;
 		int xPos = this.getX(), yPos = this.getY();
+		this.possibleMoves.clear();
 		
 		if (this.isPromoted()) {
 			if (this.getTeam() == "upper") {
-				if (newX == xPos - 1) {
-					if (newY == yPos)
-						return true;
-				}
-				if (newX == xPos + 1) {
-					if (newY == yPos || newY == yPos + 1 || newY == yPos -1)
-						return true;
-				}
-				if (newY == yPos + 1 || newY == yPos - 1) {
-					if (newX == xPos)
-						return true;
-				}
+				checkPossibleMove(board, xPos - 1, yPos);
+				checkPossibleMove(board, xPos + 1, yPos + 1);
+				checkPossibleMove(board, xPos + 1, yPos - 1);
+				checkPossibleMove(board, xPos + 1, yPos);
+				checkPossibleMove(board, xPos, yPos + 1);
+				checkPossibleMove(board, xPos, yPos - 1);
 			}
-			
 			if (this.getTeam() == "lower") {
-				if (newX == xPos - 1) {
-					if (newY == yPos || newY == yPos + 1 || newY == yPos - 1)
-						return true;
-				}
-				if (newX == xPos + 1) {
-					if (newY == yPos)
-						return true;
-				}
-				if (newY == yPos + 1 || newY == yPos - 1) {
-					if (newX == xPos)
-						return true;
-				}
+				checkPossibleMove(board, xPos + 1, yPos);
+				checkPossibleMove(board, xPos - 1, yPos + 1);
+				checkPossibleMove(board, xPos - 1, yPos - 1);
+				checkPossibleMove(board, xPos - 1, yPos);
+				checkPossibleMove(board, xPos, yPos + 1);
+				checkPossibleMove(board, xPos, yPos - 1);
 			}
 		} else {
 			if (this.getTeam() == "upper") {
-				if (newX == xPos + 1 && yPos == newY) {
-					return true;
-				}
+				checkPossibleMove(board, xPos + 1, yPos);
 			}
-			
 			if (this.getTeam() == "lower") {
-				if (newX == xPos - 1 && yPos == newY) {
-					return true;
-				}
+				checkPossibleMove(board, xPos - 1, yPos);
 			}
 		}
 		
 		
-		return false;
+		
 	}
+
+
+	
 }
