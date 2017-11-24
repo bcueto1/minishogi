@@ -3,7 +3,7 @@ public class Pawn extends Piece {
 
 	public Pawn(int xPosition, int yPosition, String team) {
 		super(xPosition, yPosition, team);
-		// TODO Auto-generated constructor stub
+		this.setType("pawn");
 	}
 
 	@Override
@@ -13,21 +13,51 @@ public class Pawn extends Piece {
 			return false;
 		int xPos = this.getX(), yPos = this.getY();
 		
-		
-		if (this.getTeam() == "upper") {
-			if (newX == xPos + 1 && yPos == newY) {
-				return true;
+		if (this.isPromoted()) {
+			if (this.getTeam() == "upper") {
+				if (newX == xPos - 1) {
+					if (newY == yPos)
+						return true;
+				}
+				if (newX == xPos + 1) {
+					if (newY == yPos || newY == yPos + 1 || newY == yPos -1)
+						return true;
+				}
+				if (newY == yPos + 1 || newY == yPos - 1) {
+					if (newX == xPos)
+						return true;
+				}
 			}
-		}
-		
-		if (this.getTeam() == "lower") {
-			if (newX == xPos - 1 && yPos == newY) {
-				return true;
+			
+			if (this.getTeam() == "lower") {
+				if (newX == xPos - 1) {
+					if (newY == yPos || newY == yPos + 1 || newY == yPos - 1)
+						return true;
+				}
+				if (newX == xPos + 1) {
+					if (newY == yPos)
+						return true;
+				}
+				if (newY == yPos + 1 || newY == yPos - 1) {
+					if (newX == xPos)
+						return true;
+				}
+			}
+		} else {
+			if (this.getTeam() == "upper") {
+				if (newX == xPos + 1 && yPos == newY) {
+					return true;
+				}
+			}
+			
+			if (this.getTeam() == "lower") {
+				if (newX == xPos - 1 && yPos == newY) {
+					return true;
+				}
 			}
 		}
 		
 		
 		return false;
 	}
-
 }

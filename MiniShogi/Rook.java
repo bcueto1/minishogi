@@ -3,7 +3,7 @@ public class Rook extends Piece {
 
 	public Rook(int xPosition, int yPosition, String team) {
 		super(xPosition, yPosition, team);
-		// TODO Auto-generated constructor stub
+		this.setType("rook");
 	}
 
 	@Override
@@ -13,10 +13,9 @@ public class Rook extends Piece {
 			return false;
 		int xPos = this.getX(), yPos = this.getY();
 		
-		
-		// Not on a horizontal/vertical
-		if (xPos != newX && yPos != newY) {
-			return false;
+		if (this.isPromoted()) {
+			if (Math.abs(xPos - newX) <= 1 && Math.abs(yPos - newY) <= 1)
+				return true;
 		}
 		
 		if (xPos > newX) {
@@ -98,34 +97,9 @@ public class Rook extends Piece {
 			}
 		}
 		
-		/*
-		int xDir = 0, yDir = 0;
-		if (xPos > newX) {
-			xDir = -1;
-		} else if (xPos < newX) {
-			xDir = 1;
-		}
-		
-		if (yPos > newY) {
-			yDir = -1;
-		} else if (yPos < newY) {
-			yDir = 1;
-		} */
-		
 		
 		return false;
 	}
 	
-	/*
-	private boolean checkRookPath(Position[][] board, int x, int y, int newX, int newY, int xDir, int yDir) {
-		
-		int tempX = x + xDir;
-		int tempY = y + yDir;
-		while(tempX < 5 && tempX >= 0 && tempY < 5 && tempY >= 0) {
-			
-		}
-		
-		return false;
-	}*/
 
 }

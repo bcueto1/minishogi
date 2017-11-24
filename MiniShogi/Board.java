@@ -55,10 +55,21 @@ public class Board {
 			}
 		} else {
 			// Illegal Move there's no piece
+		}	
+	}
+	
+	public void checkPiecePromoted(Piece piece) {
+		if (piece.getType().equals("king"))
+			return;
+		if (piece.getTeam().equals("upper")) {
+			if (piece.getX() == 4) {
+				piece.promote();
+			}
+		} else if (piece.getTeam().equals("lower")) {
+			if (piece.getX() == 0) {
+				piece.promote();
+			}
 		}
-			
-		
-		
 	}
 
 	public int convertXPosition(String position) {

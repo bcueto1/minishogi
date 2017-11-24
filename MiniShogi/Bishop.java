@@ -3,6 +3,7 @@ public class Bishop extends Piece {
 
 	public Bishop(int xPosition, int yPosition, String team) {
 		super(xPosition, yPosition, team);
+		this.setType("bishop");
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -15,6 +16,11 @@ public class Bishop extends Piece {
 		// Bishop move cannot result in same x or y
 		if (xPos == newX || yPos == newY) {
 			return false;
+		}
+		
+		if (this.isPromoted()) {
+			if (Math.abs(xPos - newX) <= 1 && Math.abs(yPos - newY) <= 1)
+				return true;
 		}
 		
 		xPos = xPos + 1;

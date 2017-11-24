@@ -2,7 +2,7 @@ public class King extends Piece {
 
 	public King(int xPosition, int yPosition, String team) {
 		super(xPosition, yPosition, team);
-		
+		this.setType("king");
 	}
 	
 

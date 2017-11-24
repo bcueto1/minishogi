@@ -2,12 +2,15 @@ public abstract class Piece implements Cloneable {
 
     private int x;
     private int y;
+    private String type;
     private String team;
+    private boolean isPromoted;
 
     public Piece(int xPosition, int yPosition, String team) {
         this.x = xPosition;
         this.y = yPosition;
         this.team = team;
+        this.isPromoted = false;
     }
 
     public int getX() {
@@ -26,12 +29,28 @@ public abstract class Piece implements Cloneable {
     	this.y = y;
     }
     
+    public String getType() {
+    	return this.type;
+    }
+    
+    public void setType(String type) {
+    	this.type = type;
+    }
+    
     public String getTeam() {
     	return this.team;
     }
     
     public void setTeam(String newTeam) {
     	this.team = newTeam;
+    }
+    
+    public boolean isPromoted() {
+    	return this.isPromoted;
+    }
+    
+    public void promote() {
+    	this.isPromoted = true;
     }
     
     public Piece recreate() throws CloneNotSupportedException {
