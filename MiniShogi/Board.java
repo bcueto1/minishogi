@@ -15,7 +15,6 @@ public class Board {
 				this.board[i][j] = pos;
 			}
 		}
-		
 		this.board[0][0].setPiece(new Rook(0,0,"upper"));
 		this.board[0][1].setPiece(new Bishop(0,1,"upper"));
 		this.board[0][2].setPiece(new SilverGeneral(0,2,"upper"));
@@ -86,10 +85,6 @@ public class Board {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 		
 	}
 	
