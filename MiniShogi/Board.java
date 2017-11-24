@@ -5,14 +5,33 @@ public class Board {
 	private Position[][] board;
 	
 	public Board() {
-		board = new Position[5][5];
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[0].length; j++) {
+		this.setUpBoard();
+		
+	}
+	
+	private void setUpBoard() {
+		this.board = new Position[5][5];
+		for (int i = 0; i < this.board.length; i++) {
+			for (int j = 0; j < this.board[0].length; j++) {
 				Position pos = new Position(i,j);
-				board[i][j] = pos;
+				
+				
+				this.board[i][j] = pos;
 			}
 		}
 		
+		this.board[0][0].setPiece(new Rook(0,0,"upper"));
+		this.board[0][1].setPiece(new Bishop(0,1,"upper"));
+		this.board[0][2].setPiece(new SilverGeneral(0,2,"upper"));
+		this.board[0][3].setPiece(new GoldGeneral(0,3,"upper"));
+		this.board[0][4].setPiece(new King(0,4,"upper"));
+		this.board[1][4].setPiece(new Pawn(1,4,"upper"));
+		this.board[4][4].setPiece(new Rook(4,4,"lower"));
+		this.board[4][3].setPiece(new Bishop(4,3,"lower"));
+		this.board[4][2].setPiece(new SilverGeneral(4,2,"lower"));
+		this.board[4][1].setPiece(new GoldGeneral(4,1,"lower"));
+		this.board[4][0].setPiece(new King(4,0,"lower"));
+		this.board[1][4].setPiece(new Pawn(3,0,"lower"));
 	}
 	
 	public Board(Position[][] board) {
