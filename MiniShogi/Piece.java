@@ -65,6 +65,8 @@ public abstract class Piece implements Cloneable {
 			return false;
 		if (board[newX][newY].getPiece().getTeam().equals(this.team))
 			return false;
+		if (board[newX][newY].getPiece().getType().equals("king"))
+			return false;
 		
 		return true;
     }

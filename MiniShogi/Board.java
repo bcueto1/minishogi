@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Board {
 
 	private Position[][] board;
@@ -49,6 +47,7 @@ public class Board {
 				piece = this.board[x][y].getPiece().recreate();
 				piece.move(this.board, newX, newY);
 				this.board[newX][newY].setPiece(piece);
+				this.checkPiecePromoted(piece);
 				this.board[x][y].removePiece();
 			} catch (CloneNotSupportedException e) {
 				
@@ -69,6 +68,43 @@ public class Board {
 			if (piece.getX() == 0) {
 				piece.promote();
 			}
+		}
+	}
+	
+	public void capturePiece(Piece piece, Player player, int x, int y) {
+		try {
+			Piece capturedPiece = piece.recreate();
+			if (capturedPiece.getTeam().equals("upper"))
+				capturedPiece.setTeam("lower");
+			else if (capturedPiece.getTeam().equals("lower"))
+				capturedPiece.setTeam("upper");
+			
+			
+			capturedPiece.setX(-1);
+			capturedPiece.setY(-1);
+			player.capturePiece(capturedPiece);
+			this.board[x][y].removePiece();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+	}
+	
+	public void dropPieceToBoard(String type, Player player, int x, int y) {
+		if (this.board[x][y].hasPiece()) {
+			return;
+		} else {
+			Piece piece = player.dropPiece(type);
+			if (piece == null)
+				return;
+			piece.setX(x);
+			piece.setY(y);
+			this.board[x][y].setPiece(piece);
 		}
 	}
 

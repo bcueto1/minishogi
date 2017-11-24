@@ -22,8 +22,19 @@ public class Player {
 		this.captured.add(piece);
 	}
 	
-	public void dropPiece(Piece piece) {
-		
+	public Piece dropPiece(String type) {
+		for (Piece piece: this.captured) {
+			if (piece.getType().equals(type)) {
+				try {
+					Piece droppedPiece = (Piece) piece.recreate();
+					this.captured.remove(piece);
+					return droppedPiece;
+				} catch (CloneNotSupportedException e) {
+					
+				}
+			}
+		}
+		return null;
 	}
 	
 }
