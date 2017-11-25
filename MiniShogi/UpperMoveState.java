@@ -9,7 +9,7 @@ public class UpperMoveState implements GameState {
 	}
 
 	@Override
-	public void move(int x, int y) throws IllegalMoveException {
+	public void move(int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
 		
 		Board board = this.game.getBoard();
 		
@@ -19,7 +19,9 @@ public class UpperMoveState implements GameState {
 			}
 		}
 		
-		this.game.setState(this.game.getLowerMoveState());
+		
+		this.game.getLowerPlayer().movePiece(board, x, y, newX, newY, promote, this.game.getUpperPlayer());
+		this.game.setState(this.game.getUpperMoveState());
 		
 	}
 

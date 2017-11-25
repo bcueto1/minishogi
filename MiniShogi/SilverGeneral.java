@@ -7,7 +7,7 @@ public class SilverGeneral extends Piece {
 	}
 	
 	@Override
-	public void updatePossibleMoves(Position[][] board) {
+	public void updatePossibleMoves(Board board) {
 		
 		int xPos = this.getX(), yPos = this.getY();
 		this.possibleMoves.clear();

@@ -7,7 +7,7 @@ public class Rook extends Piece {
 	}
 	
 	@Override
-	public void updatePossibleMoves(Position[][] board) {
+	public void updatePossibleMoves(Board board) {
 		
 		int xPos = this.getX(), yPos = this.getY();
 		this.possibleMoves.clear();
@@ -25,7 +25,7 @@ public class Rook extends Piece {
 		
 		xPos = xPos - 1;
 		while (xPos >= 0) {
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}
@@ -35,7 +35,7 @@ public class Rook extends Piece {
 		
 		xPos = this.getX() + 1;
 		while (xPos < 5) {
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}
@@ -45,7 +45,7 @@ public class Rook extends Piece {
 		
 		yPos = yPos - 1;
 		while (yPos >= 0) {
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}
@@ -55,7 +55,7 @@ public class Rook extends Piece {
 		
 		yPos = this.getY() + 1;
 		while (yPos < 5) {
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}

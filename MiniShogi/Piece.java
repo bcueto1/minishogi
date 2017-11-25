@@ -41,6 +41,10 @@ public abstract class Piece implements Cloneable {
     	this.type = type;
     }
     
+    public ArrayList<Position> getPossibleMoves() {
+    	return this.possibleMoves;
+    }
+    
     public String getTeam() {
     	return this.team;
     }
@@ -65,21 +69,32 @@ public abstract class Piece implements Cloneable {
     	return (Piece) this.clone();
     }
     
-    protected void checkPossibleMove(Position[][] board, int newX, int newY) {
-    	if (board[newX][newY].hasPiece()) {
-    		if (board[newX][newY].getPiece().getType().equals("king"))
+    protected void checkPossibleMove(Board board, int newX, int newY) {
+    	Position[][] positions = board.getBoard();
+    	if (board.hasPiece(newX, newY)) {
+    		if (positions[newX][newY].getPiece().getType().equals("king"))
     			return;
-    		if (board[newX][newY].getPiece().getTeam().equals(this.getTeam()))
+    		if (positions[newX][newY].getPiece().getTeam().equals(this.getTeam()))
     			return;
     	}
 		if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5)
-			this.possibleMoves.add(board[newX][newY]);
+			this.possibleMoves.add(positions[newX][newY]);
 	}
     
-    public abstract void updatePossibleMoves(Position[][] board);
-
+    public abstract void updatePossibleMoves(Board board);
     
-    public boolean canMove(Position[][] board, int newX, int newY) {
+    public void move(Board board, int newX, int newY) throws IllegalMoveException {
+    	this.updatePossibleMoves(board);
+    	if (this.canMove(newX, newY)) {
+			this.setX(newX);
+			this.setY(newY);
+			this.updatePossibleMoves(board);
+		} else {
+			throw new IllegalMoveException();
+		}
+    }
+    
+    private boolean canMove(int newX, int newY) {
     	
     	for (Position position: this.possibleMoves) {
     		int tempX = position.getX();
@@ -88,17 +103,7 @@ public abstract class Piece implements Cloneable {
     		if (tempX == newX && tempY == newY)
     			return true;
     	}
-    	
     	return false;
-    }
-    
-    public void move(Position[][] board, int newX, int newY) throws IllegalMoveException {
-    	if (this.canMove(board, newX, newY)) {
-			this.setX(newX);
-			this.setY(newY);
-		} else {
-			throw new IllegalMoveException();
-		}
     }
     
 }

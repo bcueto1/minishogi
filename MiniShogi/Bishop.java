@@ -8,7 +8,7 @@ public class Bishop extends Piece {
 	}
 	
 	@Override
-	public void updatePossibleMoves(Position[][] board) {
+	public void updatePossibleMoves(Board board) {
 		
 		int xPos = this.getX(), yPos = this.getY();
 		this.possibleMoves.clear();
@@ -27,7 +27,7 @@ public class Bishop extends Piece {
 		xPos = xPos + 1;
 		yPos = yPos + 1;
 		while(xPos < 5 && yPos < 5) {
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}
@@ -40,7 +40,7 @@ public class Bishop extends Piece {
 		yPos = this.getY() - 1;
 		while(xPos < 5 && yPos >= 0) {
 			// If the position actually has a piece
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			} 
@@ -54,7 +54,7 @@ public class Bishop extends Piece {
 		yPos = this.getY() + 1;
 		while(xPos >= 0 && yPos < 5) {
 			// If the position actually has a piece
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}
@@ -68,7 +68,7 @@ public class Bishop extends Piece {
 		yPos = this.getY() - 1;
 		while(xPos >= 0 && yPos >= 0) {
 			// If the position actually has a piece
-			if (board[xPos][yPos].hasPiece()) {
+			if (board.hasPiece(xPos, yPos)) {
 				checkPossibleMove(board, xPos, yPos);
 				break;
 			}
