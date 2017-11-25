@@ -47,7 +47,7 @@ public class Board {
 				this.checkPiecePromoted(piece);
 				this.board[x][y].removePiece();
 			} catch (CloneNotSupportedException e) {
-				
+				e.printStackTrace();
 			}
 		} else {
 			throw new IllegalMoveException();
