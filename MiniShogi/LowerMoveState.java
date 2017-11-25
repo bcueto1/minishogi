@@ -13,23 +13,24 @@ public class LowerMoveState implements GameState {
 		
 		Board board = this.game.getBoard();
 		
-		if (board.getBoard()[x][y].hasPiece()) {
-			if (!board.getBoard()[x][y].getPiece().getTeam().equals("upper")) {
-				throw new IllegalMoveException();
+		this.game.getLowerPlayer().movePiece(board, x, y, newX, newY, promote, this.game.getUpperPlayer());
+		Piece thisPiece = board.getPosition(newX, newY).getPiece();
+		King upperKing = this.game.getUpperPlayer().getKing();
+		if (!thisPiece.getType().equals("king")) {
+			for (Position position: thisPiece.getPossibleMoves()) {
+				int tempX = position.getX();
+				int tempY = position.getY();
+				
+				
+				if (upperKing.getX() == tempX && upperKing.getY() == tempY) {
+					this.game.setState(this.game.getUpperCheckState());
+					return;
+				}
 			}
 		}
 		
-		this.game.getLowerPlayer().movePiece(board, x, y, newX, newY, promote, this.game.getUpperPlayer());
 		this.game.setState(this.game.getUpperMoveState());
 		
-	}
-	
-	public boolean isCheck() {
-		
-		
-		
-		
-		return false;
 	}
 
 

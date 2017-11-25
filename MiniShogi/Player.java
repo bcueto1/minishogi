@@ -50,11 +50,7 @@ public class Player {
 		}
 	}
 	
-	public void dropPiece(Position[][] board, String type, int x, int y) {
-		
-	}
-	
-	public void drop(Position[][] board, String type, int x, int y) throws IllegalMoveException {
+	public void dropPiece(Position[][] board, String type, int x, int y) throws IllegalMoveException {
 		if (board[x][y].hasPiece())
 			throw new IllegalMoveException();
 		if (type.equals("pawn")) {
@@ -82,8 +78,8 @@ public class Player {
 		
 		for (Piece caps: this.captured) {
 			if (caps.getType().equals(type)) {
-				this.captured.remove(caps);
 				this.active.add(caps);
+				this.captured.remove(caps);
 				piece = caps;
 				break;
 			}

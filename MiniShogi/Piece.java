@@ -72,8 +72,7 @@ public abstract class Piece implements Cloneable {
     protected void checkPossibleMove(Board board, int newX, int newY) {
     	Position[][] positions = board.getBoard();
     	if (board.hasPiece(newX, newY)) {
-    		if (positions[newX][newY].getPiece().getType().equals("king"))
-    			return;
+
     		if (positions[newX][newY].getPiece().getTeam().equals(this.getTeam()))
     			return;
     	}

@@ -11,6 +11,9 @@ public class Game {
 	private UpperMoveState upperMoveState;
 	private LowerCheckState lowerCheckState;
 	private UpperCheckState upperCheckState;
+	private LowerWinState lowerWinState;
+	private UpperWinState upperWinState;
+	private TieGameState tieGameState;
 	private GameState state = lowerMoveState;
 	
 	public Game() {
@@ -23,6 +26,9 @@ public class Game {
 		this.upperMoveState = new UpperMoveState(this);
 		this.lowerCheckState = new LowerCheckState(this);
 		this.upperCheckState = new UpperCheckState(this);
+		this.lowerWinState = new LowerWinState(this);
+		this.upperWinState = new UpperWinState(this);
+		this.tieGameState = new TieGameState(this);
 	}
 	
 	private void setUpBoard() {
@@ -77,6 +83,19 @@ public class Game {
 		this.board = new Board(setup);
 	}
 	
+	public void setState(GameState state) {
+		this.state = state;
+	}
+	
+	public void move(int x, int y, int newX, int newY, boolean promote) {
+		try {
+			this.state.move(x, y, newX, newY, promote);
+		} catch (IllegalMoveException e) {
+			e.printStackTrace();
+		}
+		this.moves++;
+	}
+	
 	public Board getBoard() {
 		return this.board;
 	}
@@ -109,16 +128,16 @@ public class Game {
 		return this.upperCheckState;
 	}
 	
-	public void setState(GameState state) {
-		this.state = state;
+	public LowerWinState getLowerWinState() {
+		return this.lowerWinState;
 	}
 	
-	public void move(int x, int y, int newX, int newY, boolean promote) {
-		try {
-			this.state.move(x, y, newX, newY, promote);
-		} catch (IllegalMoveException e) {
-			e.printStackTrace();
-		}
+	public UpperWinState getUpperWinState() {
+		return this.upperWinState;
+	}
+	
+	public TieGameState getTieGameState() {
+		return this.tieGameState;
 	}
 	
 	
