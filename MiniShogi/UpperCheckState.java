@@ -23,7 +23,7 @@ public class UpperCheckState implements GameState {
 		for (int i = 0; i < board.getBoard().length; i++) {
 			for (int j = 0; j < board.getBoard()[0].length; j++) {
 				Piece piece = board.getBoard()[i][j].getPiece();
-				if (!piece.getTeam().equals("upper")) {
+				if (piece.getTeam().equals("lower")) {
 					for (Position danger: piece.getPossibleMoves()) {
 						if (thisPosition.equals(danger))
 							throw new IllegalMoveException();
