@@ -127,9 +127,6 @@ public class MiniShogi {
 		}
 		
 		System.out.println(game.endMessage());
-		
-		
-		
 
 	}
 
