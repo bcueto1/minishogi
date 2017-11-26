@@ -2,12 +2,14 @@ import java.util.ArrayList;
 
 public class Player {
 
+	private Game game;
 	private String team;
 	private King king;
 	private ArrayList<Piece> active;
 	private ArrayList<Piece> captured;
 	
-	public Player(String team) {
+	public Player(Game game, String team) {
+		this.game = game;
 		this.team = team;
 		this.captured = new ArrayList<>();
 		this.active = new ArrayList<>();
@@ -44,6 +46,8 @@ public class Player {
 			
 			
 			piece.updatePossibleMoves(board);
+			this.active.remove(positions[x][y].getPiece());
+			this.active.add(piece);
 			positions[x][y].removePiece();
 		} else {
 			throw new IllegalMoveException();
@@ -94,15 +98,6 @@ public class Player {
 	}
 	
 	private void capturePiece(Piece cap, Player player) {
-		
-		/*
-		for (Piece piece: player.getActive()) {
-			int tempX = piece.getX();
-			int tempY = piece.getY();
-			
-			if (tempX == cap.getX() && tempY == cap.getY())
-				player.removeActivePiece(piece);
-		} */
 		
 		if (cap.getTeam().equals("upper"))
 			cap.setTeam("lower");

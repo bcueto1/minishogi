@@ -18,9 +18,9 @@ public class Game {
 	
 	public Game() {
 		this.moves = 0;
-		this.upperPlayer = new Player("upper");
-		this.lowerPlayer = new Player("lower");
-		this.setUpBoard();
+		this.upperPlayer = new Player(this, "upper");
+		this.lowerPlayer = new Player(this, "lower");
+		this.board = new Board(this);
 		
 		this.lowerMoveState = new LowerMoveState(this);
 		this.upperMoveState = new UpperMoveState(this);
@@ -29,58 +29,6 @@ public class Game {
 		this.lowerWinState = new LowerWinState(this);
 		this.upperWinState = new UpperWinState(this);
 		this.tieGameState = new TieGameState(this);
-	}
-	
-	private void setUpBoard() {
-		Position[][] setup = new Position[5][5];
-		for (int i = 0; i < setup.length; i++) {
-			for (int j = 0; j < setup[0].length; j++) {
-				Position pos = new Position(i,j);
-				setup[i][j] = pos;
-			}
-		}
-		
-		Rook upperRook = new Rook(0,0,"upper");
-		Bishop upperBishop = new Bishop(0,1,"upper");
-		SilverGeneral upperSG = new SilverGeneral(0,2,"upper");
-		GoldGeneral upperGG = new GoldGeneral(0,3,"upper");
-		Pawn upperPawn = new Pawn(1,4, "upper");
-		King upperKing = new King(0,4, "upper");
-		setup[0][0].setPiece(upperRook);
-		setup[0][1].setPiece(upperBishop);
-		setup[0][2].setPiece(upperSG);
-		setup[0][3].setPiece(upperGG);
-		setup[1][4].setPiece(upperPawn);
-		setup[0][4].setPiece(upperKing);
-		this.upperPlayer.addActivePiece(upperRook);
-		this.upperPlayer.addActivePiece(upperBishop);
-		this.upperPlayer.addActivePiece(upperSG);
-		this.upperPlayer.addActivePiece(upperGG);
-		this.upperPlayer.addActivePiece(upperPawn);
-		this.upperPlayer.addActivePiece(upperKing);
-		this.upperPlayer.setKing(upperKing);
-
-		Rook lowerRook = new Rook(4,4,"lower");
-		Bishop lowerBishop = new Bishop(4,3,"lower");
-		SilverGeneral lowerSG = new SilverGeneral(4,2,"lower");
-		GoldGeneral lowerGG = new GoldGeneral(4,1,"lower");
-		Pawn lowerPawn = new Pawn(3,0, "lower");
-		King lowerKing = new King(4,0, "lower");
-		setup[4][4].setPiece(new Rook(4,4,"lower"));
-		setup[4][3].setPiece(new Bishop(4,3,"lower"));
-		setup[4][2].setPiece(new SilverGeneral(4,2,"lower"));
-		setup[4][1].setPiece(new GoldGeneral(4,1,"lower"));
-		setup[1][4].setPiece(new Pawn(3,0,"lower"));
-		setup[4][0].setPiece(new King(4,0,"lower"));
-		this.lowerPlayer.addActivePiece(lowerRook);
-		this.lowerPlayer.addActivePiece(lowerBishop);
-		this.lowerPlayer.addActivePiece(lowerSG);
-		this.lowerPlayer.addActivePiece(lowerGG);
-		this.lowerPlayer.addActivePiece(lowerPawn);
-		this.lowerPlayer.addActivePiece(lowerKing);
-		this.lowerPlayer.setKing(lowerKing);
-		
-		this.board = new Board(setup);
 	}
 	
 	public void setState(GameState state) {
@@ -142,6 +90,50 @@ public class Game {
 	
 	
 
+	public int convertXPosition(String position) {
+	    int xPosition = 0;
+	    String xString = position.substring(0,1);
+	    
+	    switch (xString) {
+		    case "a": xPosition = 0;
+		    		  break;
+		    case "b": xPosition = 1;
+		     		  break;
+		    case "c": xPosition = 2;
+		    		  break;
+		    case "d": xPosition = 3;
+		    		  break;
+		    case "e": xPosition = 4;
+		    		  break;
+		    default:  
+		    	break;
+	    }
+	    
+	    return xPosition;
+    }
+
+    private int convertYPosition(String position) {
+    	int yPosition = 0;
+    	int yInput = Integer.parseInt(position.substring(1,2));
+		
+    	switch (yInput) {
+	    	case 1: yPosition = 0;
+	    			break;
+	    	case 2: yPosition = 1;
+	    			break;
+	    	case 3: yPosition = 2;
+	    			break;
+	    	case 4: yPosition = 3;
+	    			break;
+	    	case 5: yPosition = 4;
+	    			break;
+	    	default:
+	    		break;
+    	}
+    	
+    	return yPosition;
+
+    }
     
 
 
