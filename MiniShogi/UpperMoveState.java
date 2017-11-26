@@ -35,6 +35,29 @@ public class UpperMoveState implements GameState {
 		return game.getLowerPlayer();
 	}
 
+	@Override
+	public void drop(Game game, String type, int x, int y) throws IllegalMoveException {
+		
+		Board board = game.getBoard();
+		board.dropPiece(game, type, x, y);
+		
+		Piece piece = board.getPosition(x, y).getPiece();
+		if (board.isCheck(game, piece)) {
+			if (board.isCheckmate(game) && piece.getType().equals("pawn"))
+				throw new IllegalMoveException();
+			if (board.isCheckmate(game)) {
+				game.setState(game.getUpperWinState());
+				return;
+			}
+			
+			game.setState(game.getLowerCheckState());
+			return;
+		}
+		
+		game.setState(game.getLowerMoveState());
+		
+	}
+
 
 
 }

@@ -100,9 +100,9 @@ public class Board {
 		if (piece == null)
 			throw new IllegalMoveException();
 		
-		piece.updatePossibleMoves(this);
 		piece.setX(x);
 		piece.setY(y);
+		piece.updatePossibleMoves(this);
 		this.positions[x][y].setPiece(piece);
 	}
 	

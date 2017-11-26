@@ -19,4 +19,11 @@ public class TieGameState implements GameState {
 		return null;
 	}
 
+	@Override
+	public void drop(Game game, String type, int x, int y) throws IllegalMoveException {
+		
+		return;
+		
+	}
+
 }

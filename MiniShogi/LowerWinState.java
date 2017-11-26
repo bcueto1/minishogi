@@ -19,6 +19,12 @@ public class LowerWinState implements GameState {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void drop(Game game, String type, int x, int y) throws IllegalMoveException {
+		return;
+		
+	}
 	
 	
 

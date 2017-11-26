@@ -42,6 +42,16 @@ public class Game {
 			e.printStackTrace();
 		}
 		this.moves++;
+		if (moves == 200)
+			this.state = this.tieGameState;
+	}
+	
+	public void drop(String type, int x, int y) {
+		try {
+			this.state.drop(this, type, x, y);
+		} catch (IllegalMoveException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Board getBoard() {
