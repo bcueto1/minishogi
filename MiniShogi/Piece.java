@@ -82,27 +82,4 @@ public abstract class Piece implements Cloneable {
     
     public abstract void updatePossibleMoves(Board board);
     
-    public void move(Board board, int newX, int newY) throws IllegalMoveException {
-    	this.updatePossibleMoves(board);
-    	if (this.canMove(newX, newY)) {
-			this.setX(newX);
-			this.setY(newY);
-			this.updatePossibleMoves(board);
-		} else {
-			throw new IllegalMoveException();
-		}
-    }
-    
-    private boolean canMove(int newX, int newY) {
-    	
-    	for (Position position: this.possibleMoves) {
-    		int tempX = position.getX();
-    		int tempY = position.getY();
-    		
-    		if (tempX == newX && tempY == newY)
-    			return true;
-    	}
-    	return false;
-    }
-    
 }

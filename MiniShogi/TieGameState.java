@@ -1,15 +1,22 @@
 public class TieGameState implements GameState {
 	
-	Game game;
-	
-	public TieGameState(Game game) {
-		this.game = game;
+	public TieGameState() { }
+
+	@Override
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+		return;
+		
 	}
 
 	@Override
-	public void move(int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
-		return;
-		
+	public Player getCurrentPlayer(Game game) {
+		return null;
+	}
+
+	@Override
+	public Player getOtherPlayer(Game game) {
+
+		return null;
 	}
 
 }

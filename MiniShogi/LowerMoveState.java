@@ -2,20 +2,16 @@
 
 public class LowerMoveState implements GameState {
 	
-	Game game;
-	
-	public LowerMoveState(Game game) {
-		this.game = game;
-	}
+	public LowerMoveState() {}
 
 	@Override
-	public void move(int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
 		
-		Board board = this.game.getBoard();
+		Board board = game.getBoard();
 		
-		this.game.getLowerPlayer().movePiece(board, x, y, newX, newY, promote, this.game.getUpperPlayer());
+		board.movePiece(game, x, y, newX, newY, promote);
 		Piece thisPiece = board.getPosition(newX, newY).getPiece();
-		King upperKing = this.game.getUpperPlayer().getKing();
+		King upperKing = game.getUpperPlayer().getKing();
 		if (!thisPiece.getType().equals("king")) {
 			for (Position position: thisPiece.getPossibleMoves()) {
 				int tempX = position.getX();
@@ -23,14 +19,24 @@ public class LowerMoveState implements GameState {
 				
 				
 				if (upperKing.getX() == tempX && upperKing.getY() == tempY) {
-					this.game.setState(this.game.getUpperCheckState());
+					game.setState(game.getUpperCheckState());
 					return;
 				}
 			}
 		}
 		
-		this.game.setState(this.game.getUpperMoveState());
+		game.setState(game.getUpperMoveState());
 		
+	}
+
+	@Override
+	public Player getCurrentPlayer(Game game) {
+		return game.getLowerPlayer();
+	}
+
+	@Override
+	public Player getOtherPlayer(Game game) {
+		return game.getUpperPlayer();
 	}
 
 

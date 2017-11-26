@@ -1,24 +1,19 @@
 
 public class LowerCheckState implements GameState {
 
-	Game game;
-	
-	public LowerCheckState(Game game) {
-		this.game = game;
-	}
 
 	@Override
-	public void move(int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
 		
-		Board board = this.game.getBoard();
+		Board board = game.getBoard();
 		
-		King lowerKing = this.game.getLowerPlayer().getKing();
+		King lowerKing = game.getLowerPlayer().getKing();
 		lowerKing.updatePossibleMoves(board);
 		if (lowerKing.getPossibleMoves().isEmpty()) {
-			this.game.setState(this.game.getUpperWinState());
+			game.setState(game.getUpperWinState());
 		}
 		
-		this.game.getUpperPlayer().movePiece(board, x, y, newX, newY, promote, this.game.getLowerPlayer());
+		board.movePiece(game, x, y, newX, newY, promote);
 		
 		Position thisPosition = board.getPosition(lowerKing.getX(), lowerKing.getY());
 		for (int i = 0; i < board.getBoard().length; i++) {
@@ -34,6 +29,16 @@ public class LowerCheckState implements GameState {
 			}
 		}
 		
+	}
+
+	@Override
+	public Player getCurrentPlayer(Game game) {
+		return game.getLowerPlayer();
+	}
+
+	@Override
+	public Player getOtherPlayer(Game game) {
+		return game.getUpperPlayer();
 	}
 
 

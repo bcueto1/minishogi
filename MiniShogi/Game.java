@@ -18,17 +18,17 @@ public class Game {
 	
 	public Game() {
 		this.moves = 0;
-		this.upperPlayer = new Player(this, "upper");
-		this.lowerPlayer = new Player(this, "lower");
+		this.upperPlayer = new Player("upper");
+		this.lowerPlayer = new Player("lower");
 		this.board = new Board(this);
 		
-		this.lowerMoveState = new LowerMoveState(this);
-		this.upperMoveState = new UpperMoveState(this);
-		this.lowerCheckState = new LowerCheckState(this);
-		this.upperCheckState = new UpperCheckState(this);
-		this.lowerWinState = new LowerWinState(this);
-		this.upperWinState = new UpperWinState(this);
-		this.tieGameState = new TieGameState(this);
+		this.lowerMoveState = new LowerMoveState();
+		this.upperMoveState = new UpperMoveState();
+		this.lowerCheckState = new LowerCheckState();
+		this.upperCheckState = new UpperCheckState();
+		this.lowerWinState = new LowerWinState();
+		this.upperWinState = new UpperWinState();
+		this.tieGameState = new TieGameState();
 	}
 	
 	public void setState(GameState state) {
@@ -37,7 +37,7 @@ public class Game {
 	
 	public void move(int x, int y, int newX, int newY, boolean promote) {
 		try {
-			this.state.move(x, y, newX, newY, promote);
+			this.state.move(this, x, y, newX, newY, promote);
 		} catch (IllegalMoveException e) {
 			e.printStackTrace();
 		}
@@ -87,6 +87,7 @@ public class Game {
 	public TieGameState getTieGameState() {
 		return this.tieGameState;
 	}
+
 	
 	
 

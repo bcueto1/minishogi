@@ -1,16 +1,22 @@
 
 public class UpperWinState implements GameState {
 	
-	Game game;
-	
-	public UpperWinState(Game game) {
-		this.game = game;
+	public UpperWinState() { }
+
+	@Override
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+		return;
+		
 	}
 
 	@Override
-	public void move(int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
-		return;
-		
+	public Player getCurrentPlayer(Game game) {
+		return null;
+	}
+
+	@Override
+	public Player getOtherPlayer(Game game) {
+		return null;
 	}
 
 }
