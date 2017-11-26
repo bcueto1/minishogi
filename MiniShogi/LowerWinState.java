@@ -16,7 +16,6 @@ public class LowerWinState implements GameState {
 
 	@Override
 	public Player getOtherPlayer(Game game) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
