@@ -77,8 +77,8 @@ public class MiniShogi {
 		boolean lowerMove = true;
 		
 		System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
-		System.out.println("Captures UPPER:" );
-		System.out.println("Captures lower:" );
+		System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
+		System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
 		System.out.println();
 		
 		
@@ -120,8 +120,8 @@ public class MiniShogi {
 				System.out.println("UPPER player action: " + userInput );
 			
 			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
-			System.out.println("Captures UPPER:" );
-			System.out.println("Captures lower:" );
+			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
+			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
 			System.out.println();
 			lowerMove = !lowerMove;
 		}

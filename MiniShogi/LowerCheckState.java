@@ -21,7 +21,9 @@ public class LowerCheckState implements GameState {
 		Position thisPosition = board.getPosition(lowerKing.getX(), lowerKing.getY());
 		for (int i = 0; i < board.getBoard().length; i++) {
 			for (int j = 0; j < board.getBoard()[0].length; j++) {
-				Piece piece = board.getBoard()[i][j].getPiece();
+				if (!board.hasPiece(i, j))
+					continue;
+				Piece piece = board.getPiece(i, j);
 				if (piece.getTeam().equals("upper")) {
 					piece.updatePossibleMoves(board);
 					for (Position danger: piece.getPossibleMoves()) {

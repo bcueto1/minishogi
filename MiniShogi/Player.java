@@ -35,4 +35,12 @@ public class Player {
 		this.king = king;
 	}
 	
+	public String capturedString() {
+		String cap = "";
+		for (Piece piece: this.captured) {
+			cap += piece.toString() + " ";
+		}
+		return cap;
+	}
+	
 }
