@@ -7,10 +7,6 @@ public class UpperCheckState implements GameState {
 		Board board = game.getBoard();
 		
 		King upperKing = game.getUpperPlayer().getKing();
-		upperKing.updatePossibleMoves(board);
-		if (upperKing.getPossibleMoves().isEmpty()) {
-			game.setState(game.getLowerWinState());
-		}
 		
 		board.movePiece(game, x, y, newX, newY, promote);
 		
@@ -19,6 +15,7 @@ public class UpperCheckState implements GameState {
 			for (int j = 0; j < board.getBoard()[0].length; j++) {
 				Piece piece = board.getBoard()[i][j].getPiece();
 				if (piece.getTeam().equals("lower")) {
+					piece.updatePossibleMoves(board);
 					for (Position danger: piece.getPossibleMoves()) {
 						if (thisPosition.equals(danger))
 							throw new IllegalMoveException();

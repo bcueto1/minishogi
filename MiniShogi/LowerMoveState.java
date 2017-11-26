@@ -11,18 +11,14 @@ public class LowerMoveState implements GameState {
 		
 		board.movePiece(game, x, y, newX, newY, promote);
 		Piece thisPiece = board.getPosition(newX, newY).getPiece();
-		King upperKing = game.getUpperPlayer().getKing();
-		if (!thisPiece.getType().equals("king")) {
-			for (Position position: thisPiece.getPossibleMoves()) {
-				int tempX = position.getX();
-				int tempY = position.getY();
-				
-				
-				if (upperKing.getX() == tempX && upperKing.getY() == tempY) {
-					game.setState(game.getUpperCheckState());
-					return;
-				}
+		if (board.isCheck(game, thisPiece)) {
+			if (board.isCheckmate(game)) {
+				game.setState(game.getLowerWinState());
+				return;
 			}
+				
+			game.setState(game.getUpperCheckState());
+			return;
 		}
 		
 		game.setState(game.getUpperMoveState());

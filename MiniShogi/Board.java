@@ -44,6 +44,32 @@ public class Board {
 		
 	}
 	
+	public boolean isCheck(Game game, Piece piece) {
+		
+		King otherKing = game.getState().getOtherPlayer(game).getKing();
+		if (!piece.getType().equals("king")) {
+			for (Position position: piece.getPossibleMoves()) {
+				int tempX = position.getX();
+				int tempY = position.getY();
+				
+				if (otherKing.getX() == tempX && otherKing.getY() == tempY) {
+					return true;
+				}
+						
+			}
+		}
+		return false;
+	}
+	
+	public boolean isCheckmate(Game game) {
+		King otherKing = game.getState().getOtherPlayer(game).getKing();
+		otherKing.updatePossibleMoves(this);
+		if (otherKing.getPossibleMoves().isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void dropPiece(Game game, String type, int x, int y) throws IllegalMoveException {
 		if (this.hasPiece(x, y))
 			throw new IllegalMoveException();
