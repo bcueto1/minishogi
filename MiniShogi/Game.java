@@ -15,7 +15,7 @@ public class Game {
 	private LowerWinState lowerWinState;
 	private UpperWinState upperWinState;
 	private TieGameState tieGameState;
-	private GameState state = lowerMoveState;
+	private GameState state;
 	
 	public Game() {
 		this.moves = 0;
@@ -31,6 +31,7 @@ public class Game {
 		this.lowerWinState = new LowerWinState();
 		this.upperWinState = new UpperWinState();
 		this.tieGameState = new TieGameState();
+		this.state = this.lowerMoveState;
 	}
 	
 	public void setState(GameState state) {
@@ -38,25 +39,27 @@ public class Game {
 	}
 	
 	public void move(int x, int y, int newX, int newY, boolean promote) {
-		try {
-			this.state.move(this, x, y, newX, newY, promote);
-		} catch (IllegalMoveException e) {
-			e.printStackTrace();
-		}
+		this.state.move(this, x, y, newX, newY, promote);
 		this.moves++;
-		if (moves == 200)
+		if (moves == 200) {
 			this.state = this.tieGameState;
+			this.isOver = true;
+		}
+			
 	}
 	
 	public void drop(String type, int x, int y) {
-		try {
-			this.state.drop(this, type, x, y);
-		} catch (IllegalMoveException e) {
-			e.printStackTrace();
-		}
+		this.state.drop(this, type, x, y);
 		this.moves++;
-		if (moves == 200)
+		if (moves == 200) {
 			this.state = this.tieGameState;
+			this.isOver = true;
+		}
+			
+	}
+	
+	public String endMessage() {
+		return this.state.getEndMessage();
 	}
 	
 	public Board getBoard() {

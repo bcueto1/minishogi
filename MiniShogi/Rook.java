@@ -43,6 +43,7 @@ public class Rook extends Piece {
 			xPos = xPos + 1;
 		}
 		
+		xPos = this.getX();
 		yPos = yPos - 1;
 		while (yPos >= 0) {
 			if (board.hasPiece(xPos, yPos)) {
@@ -64,6 +65,18 @@ public class Rook extends Piece {
 		}
 		
 		
+	}
+	
+	@Override
+	public String toString() {
+		String rep = "";
+		if (this.isPromoted())
+			rep += "+";
+		if (this.getTeam().equals("upper"))
+			rep += "R";
+		else
+			rep += "r";
+		return rep;
 	}
 
 

@@ -1,10 +1,14 @@
 
 public class UpperWinState implements GameState {
 	
-	public UpperWinState() { }
+	private String type;
+	
+	public UpperWinState() { 
+		type = "";
+	}
 
 	@Override
-	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) {
 		return;
 		
 	}
@@ -20,9 +24,25 @@ public class UpperWinState implements GameState {
 	}
 
 	@Override
-	public void drop(Game game, String type, int x, int y) throws IllegalMoveException {
+	public void drop(Game game, String type, int x, int y) {
 		return;
 		
+	}
+	
+	public void setType(String type) {
+		if (type.equals("checkmate"))
+			this.type = "Checkmate.";
+		else if (type.equals("illegal"))
+			this.type = "Illegal move.";
+	}
+	
+	public String getType() {
+		return this.type;
+	}
+
+	@Override
+	public String getEndMessage() {
+		return "UPPER player wins. " + this.type;
 	}
 
 }

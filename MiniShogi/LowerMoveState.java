@@ -5,15 +5,24 @@ public class LowerMoveState implements GameState {
 	public LowerMoveState() {}
 
 	@Override
-	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) {
 		
 		Board board = game.getBoard();
 		
-		board.movePiece(game, x, y, newX, newY, promote);
+		try {
+			board.movePiece(game, x, y, newX, newY, promote);
+		} catch (IllegalMoveException e) {
+			game.getUpperWinState().setType("illegal");
+			game.setState(game.getUpperWinState());
+			game.setOver();
+			return;
+		}
 		Piece piece = board.getPiece(newX, newY);
 		if (board.isCheck(game, piece)) {
 			if (board.isCheckmate(game)) {
+				game.getLowerWinState().setType("checkmate");
 				game.setState(game.getLowerWinState());
+				game.setOver();
 				return;
 			}
 				
@@ -36,17 +45,30 @@ public class LowerMoveState implements GameState {
 	}
 
 	@Override
-	public void drop(Game game, String type, int x, int y) throws IllegalMoveException {
+	public void drop(Game game, String type, int x, int y) {
 		
 		Board board = game.getBoard();
-		board.dropPiece(game, type, x, y);
+		try {
+			board.dropPiece(game, type, x, y);
+		} catch (IllegalMoveException e) {
+			game.getUpperWinState().setType("illegal");
+			game.setState(game.getUpperWinState());
+			game.setOver();
+			return;
+		}
 		
 		Piece piece = board.getPiece(x, y);
 		if (board.isCheck(game, piece)) {
-			if (board.isCheckmate(game) && piece.getType().equals("pawn"))
-				throw new IllegalMoveException();
+			if (board.isCheckmate(game) && piece.getType().equals("pawn")) {
+				game.getUpperWinState().setType("illegal");
+				game.setState(game.getUpperWinState());
+				game.setOver();
+				return;
+			}
 			if (board.isCheckmate(game)) {
+				game.getLowerWinState().setType("checkmate");
 				game.setState(game.getLowerWinState());
+				game.setOver();
 				return;
 			}
 			
@@ -56,6 +78,11 @@ public class LowerMoveState implements GameState {
 		
 		game.setState(game.getUpperMoveState());
 		
+	}
+
+	@Override
+	public String getEndMessage() {
+		return "";
 	}
 
 

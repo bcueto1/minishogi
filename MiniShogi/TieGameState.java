@@ -3,7 +3,7 @@ public class TieGameState implements GameState {
 	public TieGameState() { }
 
 	@Override
-	public void move(Game game, int x, int y, int newX, int newY, boolean promote) throws IllegalMoveException {
+	public void move(Game game, int x, int y, int newX, int newY, boolean promote) {
 		return;
 		
 	}
@@ -20,10 +20,14 @@ public class TieGameState implements GameState {
 	}
 
 	@Override
-	public void drop(Game game, String type, int x, int y) throws IllegalMoveException {
+	public void drop(Game game, String type, int x, int y) {
 		
 		return;
 		
 	}
 
+	@Override
+	public String getEndMessage() {
+		return "Tie game. Too many moves";
+	}
 }

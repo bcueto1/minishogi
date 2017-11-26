@@ -31,6 +31,18 @@ public class GoldGeneral extends Piece {
 		
 	}
 
+	@Override
+	public String toString() {
+		String rep = "";
+		if (this.isPromoted())
+			rep += "+";
+		if (this.getTeam().equals("upper"))
+			rep += "G";
+		else
+			rep += "g";
+		return rep;
+	}
+
 
 	
 

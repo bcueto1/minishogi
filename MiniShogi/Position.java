@@ -41,6 +41,7 @@ public class Position {
 		if (this.piece == null)
 			return false;
 		return true;
+
 	}
 	
 	

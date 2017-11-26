@@ -26,6 +26,8 @@ public class King extends Piece {
 	@Override
 	protected void checkPossibleMove(Board board, int newX, int newY) {
 		Position[][] positions = board.getBoard();
+		if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
+			return;
 		if (board.hasPiece(newX, newY)) {
     		if (positions[newX][newY].getPiece().getType().equals("king"))
     			return;
@@ -33,12 +35,13 @@ public class King extends Piece {
     			return;
     	}
 		
-		if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
-			return;
+		
 		
 		Position thisPosition = board.getPosition(newX, newY);
 		for (int i = 0; i < positions.length; i++) {
 			for (int j = 0; j < positions[0].length; j++) {
+				if (!board.hasPiece(i, j))
+					continue;
 				Piece piece = positions[i][j].getPiece();
 				if (!piece.getTeam().equals(this.getTeam())) {
 					for (Position danger: piece.getPossibleMoves()) {
@@ -54,6 +57,19 @@ public class King extends Piece {
 		this.possibleMoves.add(positions[newX][newY]);
 		
 		
+	}
+
+
+	@Override
+	public String toString() {
+		String rep = "";
+		if (this.isPromoted())
+			rep += "+";
+		if (this.getTeam().equals("upper"))
+			rep += "K";
+		else
+			rep += "k";
+		return rep;
 	}
 
 }

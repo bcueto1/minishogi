@@ -71,15 +71,18 @@ public abstract class Piece implements Cloneable {
     
     protected void checkPossibleMove(Board board, int newX, int newY) {
     	Position[][] positions = board.getBoard();
+    	if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
+    		return;
     	if (board.hasPiece(newX, newY)) {
-
     		if (positions[newX][newY].getPiece().getTeam().equals(this.getTeam()))
     			return;
     	}
-		if (newX >= 0 && newX < 5 && newY >= 0 && newY < 5)
-			this.possibleMoves.add(positions[newX][newY]);
+    	
+		this.possibleMoves.add(positions[newX][newY]);
 	}
     
     public abstract void updatePossibleMoves(Board board);
+    
+    public abstract String toString();
     
 }

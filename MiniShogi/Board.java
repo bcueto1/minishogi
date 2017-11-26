@@ -10,7 +10,7 @@ public class Board {
 		this.positions = new Position[5][5];
 		for (int i = 0; i < positions.length; i++) {
 			for (int j = 0; j < positions[0].length; j++) {
-				Position pos = new Position(i,j);
+				Position pos = new Position(null, i,j);
 				positions[i][j] = pos;
 			}
 		}
@@ -77,7 +77,8 @@ public class Board {
 	private boolean isPawnPromoted(Piece piece) {
 		if (!piece.getType().equals("pawn"))
 			return false;
-		
+		if (piece.isPromoted())
+			return false;
 		if (piece.getTeam().equals("upper") && piece.getX() == 4)
 			return true;
 		
@@ -108,7 +109,6 @@ public class Board {
 			throw new IllegalMoveException();
 		
 		Player curPlayer = game.getState().getCurrentPlayer(game);
-		Player oppPlayer = game.getState().getOtherPlayer(game);
 		Piece piece = null;
 		try { piece = this.getPiece(x, y).recreate(); } catch (CloneNotSupportedException e) { e.printStackTrace(); }
 		if (!piece.getTeam().equals(curPlayer.getTeam()) || !checkPosition(piece, newX, newY))
@@ -210,6 +210,25 @@ public class Board {
 	
 	public boolean hasPiece(int x, int y) {
 		return this.positions[x][y].hasPiece();
+	}
+	
+	public String[][] getBoardString() {
+		
+		String[][] boardString = new String[5][5];
+		
+		for (int i = 0; i < this.positions.length; i++) {
+			for (int j = 0; j < this.positions[0].length; j++) {
+				if (this.hasPiece(i, j)) {
+					Piece piece = positions[i][j].getPiece();
+					boardString[j][this.positions.length - i - 1] = piece.toString();
+				} else {
+					boardString[j][this.positions.length - i - 1] = "";
+				}
+			}
+		}
+		
+		return boardString;
+		
 	}
 	
 	

@@ -42,6 +42,18 @@ public class Pawn extends Piece {
 		
 	}
 
+	
+	@Override
+	public String toString() {
+		String rep = "";
+		if (this.isPromoted())
+			rep += "+";
+		if (this.getTeam().equals("upper"))
+			rep += "P";
+		else
+			rep += "p";
+		return rep;
+	}
 
 	
 }

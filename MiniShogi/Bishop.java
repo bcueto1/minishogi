@@ -78,6 +78,18 @@ public class Bishop extends Piece {
 			yPos = yPos - 1;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String rep = "";
+		if (this.isPromoted())
+			rep += "+";
+		if (this.getTeam().equals("upper"))
+			rep += "B";
+		else
+			rep += "b";
+		return rep;
+	}
 
 
 	

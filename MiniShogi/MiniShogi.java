@@ -2,46 +2,46 @@ import java.util.Scanner;
 
 public class MiniShogi {
 
-	private static int convertXPosition(String position) {
-	    int xPosition = 0;
-	    String xString = position.substring(0,1);
+	private static int convertYPosition(String position) {
+	    int yPosition = 0;
+	    String yString = position.substring(0,1);
 	    
-	    switch (xString) {
-		    case "a": xPosition = 0;
+	    switch (yString) {
+		    case "a": yPosition = 0;
 		    		  break;
-		    case "b": xPosition = 1;
+		    case "b": yPosition = 1;
 		     		  break;
-		    case "c": xPosition = 2;
+		    case "c": yPosition = 2;
 		    		  break;
-		    case "d": xPosition = 3;
+		    case "d": yPosition = 3;
 		    		  break;
-		    case "e": xPosition = 4;
+		    case "e": yPosition = 4;
 		    		  break;
 		    default:  break;
 	    }
 	    
-	    return xPosition;
+	    return yPosition;
     }
 
-    private static int convertYPosition(String position) {
-    	int yPosition = 0;
-    	int yInput = Integer.parseInt(position.substring(1,2));
+    private static int convertXPosition(String position) {
+    	int xPosition = 0;
+    	int xInput = Integer.parseInt(position.substring(1,2));
 		
-    	switch (yInput) {
-	    	case 1:  yPosition = 0;
+    	switch (xInput) {
+	    	case 1:  xPosition = 4;
 	    			 break;
-	    	case 2:  yPosition = 1;
+	    	case 2:  xPosition = 3;
 	    			 break;
-	    	case 3:  yPosition = 2;
+	    	case 3:  xPosition = 2;
 	    			 break;
-	    	case 4:  yPosition = 3;
+	    	case 4:  xPosition = 1;
 	    			 break;
-	    	case 5:  yPosition = 4;
+	    	case 5:  xPosition = 0;
 	    			 break;
 	    	default: break;
     	}
     	
-    	return yPosition;
+    	return xPosition;
 
     }
     
@@ -74,18 +74,31 @@ public class MiniShogi {
 		Game game = new Game();
 		Scanner interactive = new Scanner(System.in);
 		boolean isOver = false;
+		boolean lowerMove = true;
+		
+		System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
+		System.out.println("Captures UPPER:" );
+		System.out.println("Captures lower:" );
+		System.out.println();
+		
 		
 		while (!game.isOver()) {
-			String userInput = interactive.next();
+			if (lowerMove)
+				System.out.print("lower> ");
+			else
+				System.out.print("upper> ");
+			String userInput = interactive.nextLine();
 			
-			String[] parts = userInput.split("\\s");
+			System.out.println();
+			
+			String[] parts = userInput.split(" ");
 			if (parts[0].equals("move")) {
 				String begPos = parts[1];
 				String endPos = parts[2];
-				int startX = convertXPosition(begPos.substring(1, 2));
-				int startY = convertYPosition(begPos.substring(0,1));
-				int endX = convertXPosition(endPos.substring(1, 2));
-				int endY = convertYPosition(endPos.substring(0,1));
+				int startX = convertXPosition(begPos);
+				int startY = convertYPosition(begPos);
+				int endX = convertXPosition(endPos);
+				int endY = convertYPosition(endPos);
 				
 				if (parts.length == 4) {
 					if (parts[3].equals("promote"))
@@ -96,15 +109,26 @@ public class MiniShogi {
 			} else if (parts[0].equals("drop")) {
 				String type = convertToType(parts[1]);
 				String inputPos = parts[2];
-				int dropY = convertYPosition(inputPos.substring(0,1));
-				int dropX = convertXPosition(inputPos.substring(1, 2));
+				int dropY = convertYPosition(inputPos);
+				int dropX = convertXPosition(inputPos);
 				game.drop(type, dropX, dropY);
 			}
 			
+			if (lowerMove)
+				System.out.println("lower player action: " + userInput);
+			else
+				System.out.println("UPPER player action: " + userInput );
 			
-			
-			
+			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
+			System.out.println("Captures UPPER:" );
+			System.out.println("Captures lower:" );
+			System.out.println();
+			lowerMove = !lowerMove;
 		}
+		
+		System.out.println(game.endMessage());
+		
+		
 		
 
 	}

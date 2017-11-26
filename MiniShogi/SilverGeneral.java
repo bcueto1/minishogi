@@ -49,6 +49,17 @@ public class SilverGeneral extends Piece {
 		
 	}
 
+	@Override
+	public String toString() {
+		String rep = "";
+		if (this.isPromoted())
+			rep += "+";
+		if (this.getTeam().equals("upper"))
+			rep += "S";
+		else
+			rep += "s";
+		return rep;
+	}
 
 	
 	
