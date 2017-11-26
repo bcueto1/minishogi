@@ -10,8 +10,8 @@ public class LowerMoveState implements GameState {
 		Board board = game.getBoard();
 		
 		board.movePiece(game, x, y, newX, newY, promote);
-		Piece thisPiece = board.getPosition(newX, newY).getPiece();
-		if (board.isCheck(game, thisPiece)) {
+		Piece piece = board.getPiece(newX, newY);
+		if (board.isCheck(game, piece)) {
 			if (board.isCheckmate(game)) {
 				game.setState(game.getLowerWinState());
 				return;
@@ -41,7 +41,7 @@ public class LowerMoveState implements GameState {
 		Board board = game.getBoard();
 		board.dropPiece(game, type, x, y);
 		
-		Piece piece = board.getPosition(x, y).getPiece();
+		Piece piece = board.getPiece(x, y);
 		if (board.isCheck(game, piece)) {
 			if (board.isCheckmate(game) && piece.getType().equals("pawn"))
 				throw new IllegalMoveException();

@@ -64,10 +64,12 @@ public class LowerCheckState implements GameState {
 		Position thisPosition = board.getPosition(king.getX(), king.getY());
 		for (int i = 0; i < board.getBoard().length; i++) {
 			for (int j = 0; j < board.getBoard()[0].length; j++) {
-				Piece piece = board.getBoard()[i][j].getPiece();
-				if (piece.getTeam().equals("upper")) {
-					piece.updatePossibleMoves(board);
-					for (Position danger: piece.getPossibleMoves()) {
+				if (!board.hasPiece(i, j))
+					continue;
+				Piece temp = board.getPiece(i, j);
+				if (temp.getTeam().equals("upper")) {
+					temp.updatePossibleMoves(board);
+					for (Position danger: temp.getPossibleMoves()) {
 						if (thisPosition.equals(danger))
 							throw new IllegalMoveException();
 					}
@@ -76,7 +78,7 @@ public class LowerCheckState implements GameState {
 			}
 		}
 		
-		Piece piece = board.getPosition(x, y).getPiece();
+		Piece piece = board.getPiece(x, y);
 		if (board.isCheck(game, piece)) {
 			if (board.isCheckmate(game) && piece.getType().equals("pawn"))
 				throw new IllegalMoveException();
