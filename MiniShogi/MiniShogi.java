@@ -1,9 +1,8 @@
+import java.util.Scanner;
 
 public class MiniShogi {
-	
-	public static Game game;
 
-	private int convertXPosition(String position) {
+	private static int convertXPosition(String position) {
 	    int xPosition = 0;
 	    String xString = position.substring(0,1);
 	    
@@ -24,7 +23,7 @@ public class MiniShogi {
 	    return xPosition;
     }
 
-    private int convertYPosition(String position) {
+    private static int convertYPosition(String position) {
     	int yPosition = 0;
     	int yInput = Integer.parseInt(position.substring(1,2));
 		
@@ -45,9 +44,67 @@ public class MiniShogi {
     	return yPosition;
 
     }
+    
+    private static String convertToType(String input) {
+    	
+    	String type = "";
+    	
+    	switch (input) {
+	    	case "b":	type = "bishop";
+	    				break;
+	    	case "g":	type = "goldgeneral";
+	    				break;
+	    	case "k":	type = "king";
+	    				break;
+	    	case "p":	type = "pawn";
+	    				break;
+	    	case "r":	type = "rook";
+	    				break;
+	    	case "s":	type = "silvergeneral";
+	    				break;
+	    	default:	break;
+    	}
+    	
+    	return type;
+    }
 	
 	
 	public static void main(String[] args) {
+		
+		Game game = new Game();
+		Scanner interactive = new Scanner(System.in);
+		boolean isOver = false;
+		
+		while (!game.isOver()) {
+			String userInput = interactive.next();
+			
+			String[] parts = userInput.split("\\s");
+			if (parts[0].equals("move")) {
+				String begPos = parts[1];
+				String endPos = parts[2];
+				int startX = convertXPosition(begPos.substring(1, 2));
+				int startY = convertYPosition(begPos.substring(0,1));
+				int endX = convertXPosition(endPos.substring(1, 2));
+				int endY = convertYPosition(endPos.substring(0,1));
+				
+				if (parts.length == 4) {
+					if (parts[3].equals("promote"))
+						game.move(startX, startY, endX, endY, true);
+				} else {
+					game.move(startX, startY, endX, endY, false);
+				}
+			} else if (parts[0].equals("drop")) {
+				String type = convertToType(parts[1]);
+				String inputPos = parts[2];
+				int dropY = convertYPosition(inputPos.substring(0,1));
+				int dropX = convertXPosition(inputPos.substring(1, 2));
+				game.drop(type, dropX, dropY);
+			}
+			
+			
+			
+			
+		}
 		
 
 	}

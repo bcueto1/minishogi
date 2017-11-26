@@ -6,6 +6,7 @@ public class Game {
     private Board board;
     private Player upperPlayer;
 	private Player lowerPlayer;
+	private boolean isOver;
 	
 	private LowerMoveState lowerMoveState;
 	private UpperMoveState upperMoveState;
@@ -21,6 +22,7 @@ public class Game {
 		this.upperPlayer = new Player("upper");
 		this.lowerPlayer = new Player("lower");
 		this.board = new Board(this);
+		this.isOver = false;
 		
 		this.lowerMoveState = new LowerMoveState();
 		this.upperMoveState = new UpperMoveState();
@@ -71,6 +73,14 @@ public class Game {
 	
 	public Player getUpperPlayer() {
 		return this.upperPlayer;
+	}
+	
+	public boolean isOver() {
+		return this.isOver;
+	}
+	
+	public void setOver() {
+		this.isOver = true;
 	}
 	
 	public LowerMoveState getLowerMoveState() {
