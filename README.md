@@ -1,7 +1,6 @@
 # box-take-home
 Box Take-Home-Exercise
 
-###Compilation
 To Compile In Interactive Mode:
 ```sh
 $ javac MiniShogi.java
