@@ -39,8 +39,7 @@ public class LowerCheckState implements GameState {
 			}
 		}
 		
-		Piece thisPiece = board.getPosition(newX, newY).getPiece();
-		if (board.isCheck(game, thisPiece)) {
+		if (board.isCheck(game)) {
 			if (board.isCheckmate(game)) {
 				game.getLowerWinState().setType("checkmate");
 				game.setState(game.getLowerWinState());
@@ -105,7 +104,7 @@ public class LowerCheckState implements GameState {
 		}
 		
 		Piece piece = board.getPiece(x, y);
-		if (board.isCheck(game, piece)) {
+		if (board.isCheck(game)) {
 			if (board.isCheckmate(game) && piece.getType().equals("pawn")) {
 				game.getUpperWinState().setType("illegal");
 				game.setState(game.getUpperWinState());

@@ -19,7 +19,7 @@ public class UpperMoveState implements GameState {
 		}
 		
 		Piece piece = board.getPiece(newX, newY);
-		if (board.isCheck(game, piece)) {
+		if (board.isCheck(game)) {
 			if (board.isCheckmate(game)) {
 				game.getUpperWinState().setType("checkmate");
 				game.setState(game.getUpperWinState());
@@ -58,7 +58,7 @@ public class UpperMoveState implements GameState {
 		}
 		
 		Piece piece = board.getPiece(x, y);
-		if (board.isCheck(game, piece)) {
+		if (board.isCheck(game)) {
 			if (board.isCheckmate(game) && piece.getType().equals("pawn")) {
 				game.getLowerWinState().setType("illegal");
 				game.setState(game.getLowerWinState());

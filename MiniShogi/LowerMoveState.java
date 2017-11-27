@@ -4,6 +4,8 @@ public class LowerMoveState implements GameState {
 	
 	public LowerMoveState() {}
 
+	
+
 	@Override
 	public void move(Game game, int x, int y, int newX, int newY, boolean promote) {
 		
@@ -17,8 +19,7 @@ public class LowerMoveState implements GameState {
 			game.setOver();
 			return;
 		}
-		Piece piece = board.getPiece(newX, newY);
-		if (board.isCheck(game, piece)) {
+		if (board.isCheck(game)) {
 			if (board.isCheckmate(game)) {
 				game.getLowerWinState().setType("checkmate");
 				game.setState(game.getLowerWinState());
@@ -58,7 +59,7 @@ public class LowerMoveState implements GameState {
 		}
 		
 		Piece piece = board.getPiece(x, y);
-		if (board.isCheck(game, piece)) {
+		if (board.isCheck(game)) {
 			if (board.isCheckmate(game) && piece.getType().equals("pawn")) {
 				game.getUpperWinState().setType("illegal");
 				game.setState(game.getUpperWinState());

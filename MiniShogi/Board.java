@@ -133,18 +133,26 @@ public class Board {
 		
 	}
 	
-	public boolean isCheck(Game game, Piece piece) {
+	public boolean isCheck(Game game) {
 		
-		King otherKing = game.getState().getOtherPlayer(game).getKing();
-		if (!piece.getType().equals("king")) {
-			for (Position position: piece.getPossibleMoves()) {
-				int tempX = position.getX();
-				int tempY = position.getY();
-				
-				if (otherKing.getX() == tempX && otherKing.getY() == tempY) {
-					return true;
-				}
+		King king = game.getState().getOtherPlayer(game).getKing();
+		for (int i = 0; i < positions.length; i++) {
+			for (int j = 0; j < positions[0].length; j++) {
+				if (!this.hasPiece(i, j))
+					continue;
+				Piece piece = this.getPiece(i, j);
+				if (!piece.getTeam().equals(king.getTeam())) {
+					piece.updatePossibleMoves(this);
+					for (Position position: piece.getPossibleMoves()) {
+						int tempX = position.getX();
+						int tempY = position.getY();
 						
+						if (king.getX() == tempX && king.getY() == tempY) {
+							return true;
+						}
+								
+					}
+				}
 			}
 		}
 		return false;
