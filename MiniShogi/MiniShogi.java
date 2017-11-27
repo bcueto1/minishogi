@@ -1,93 +1,6 @@
 import java.util.Scanner;
 
 public class MiniShogi {
-
-	private static int convertYPosition(String position) {
-	    int yPosition = 0;
-	    String yString = position.substring(0,1);
-	    
-	    switch (yString) {
-		    case "a": yPosition = 0;
-		    		  break;
-		    case "b": yPosition = 1;
-		     		  break;
-		    case "c": yPosition = 2;
-		    		  break;
-		    case "d": yPosition = 3;
-		    		  break;
-		    case "e": yPosition = 4;
-		    		  break;
-		    default:  break;
-	    }
-	    
-	    return yPosition;
-    }
-
-    private static int convertXPosition(String position) {
-    	int xPosition = 0;
-    	int xInput = Integer.parseInt(position.substring(1,2));
-		
-    	switch (xInput) {
-	    	case 1:  xPosition = 4;
-	    			 break;
-	    	case 2:  xPosition = 3;
-	    			 break;
-	    	case 3:  xPosition = 2;
-	    			 break;
-	    	case 4:  xPosition = 1;
-	    			 break;
-	    	case 5:  xPosition = 0;
-	    			 break;
-	    	default: break;
-    	}
-    	
-    	return xPosition;
-
-    }
-    
-    private static String convertToType(String input) {
-    	
-    	String type = "";
-    	
-    	switch (input) {
-	    	case "b":	type = "bishop";
-	    				break;
-	    	case "g":	type = "goldgeneral";
-	    				break;
-	    	case "k":	type = "king";
-	    				break;
-	    	case "p":	type = "pawn";
-	    				break;
-	    	case "r":	type = "rook";
-	    				break;
-	    	case "s":	type = "silvergeneral";
-	    				break;
-	    	default:	break;
-    	}
-    	
-    	return type;
-    }
-    
-    private static Piece createPiece(String type, String team, int x, int y) {
-    	Piece piece = null;
-    	switch (type) {
-    	case "bishop":	piece = new Bishop(x, y, team);
-    					break;
-    	case "goldgeneral": piece = new GoldGeneral(x, y, team);
-    						break;
-    	case "king":	piece = new King(x, y, team);
-    					break;
-    	case "pawn":	piece = new Pawn(x, y, team);
-    					break;
-    	case "rook":	piece = new Rook(x, y, team);
-    					break;
-    	case "silvergeneral": piece = new SilverGeneral(x, y, team);
-    						  break;
-    	default:		break;
-    	}
-    	
-    	return piece;
-    }
     
     private static void interactiveMode(Game game) {
     	
@@ -133,10 +46,10 @@ public class MiniShogi {
     private static void readMove(Game game, String[] parts) {
     	String begPos = parts[1];
 		String endPos = parts[2];
-		int startX = convertXPosition(begPos);
-		int startY = convertYPosition(begPos);
-		int endX = convertXPosition(endPos);
-		int endY = convertYPosition(endPos);
+		int startX = Utils.convertXPosition(begPos);
+		int startY = Utils.convertYPosition(begPos);
+		int endX = Utils.convertXPosition(endPos);
+		int endY = Utils.convertYPosition(endPos);
 		if (parts.length == 4) {
 			if (parts[3].equals("promote"))
 				game.move(startX, startY, endX, endY, true);
@@ -146,10 +59,10 @@ public class MiniShogi {
     }
     
     private static void readDrop(Game game, String[] parts) {
-    	String type = convertToType(parts[1]);
+    	String type = Utils.convertToType(parts[1]);
 		String inputPos = parts[2];
-		int dropY = convertYPosition(inputPos);
-		int dropX = convertXPosition(inputPos);
+		int dropY = Utils.convertYPosition(inputPos);
+		int dropX = Utils.convertXPosition(inputPos);
 		game.drop(type, dropX, dropY);
     }
     
@@ -160,16 +73,16 @@ public class MiniShogi {
 			Utils.TestCase parsedInfo = Utils.parseTestCase(file);
 			for (Utils.InitialPosition initialPiece: parsedInfo.initialPieces) {
 				String type = initialPiece.piece;
-				int x = convertXPosition(initialPiece.position);
-				int y = convertYPosition(initialPiece.position);
+				int x = Utils.convertXPosition(initialPiece.position);
+				int y = Utils.convertYPosition(initialPiece.position);
 				if (type.equals(type.toUpperCase())) {
-					Piece piece = createPiece(convertToType(type.toLowerCase()), "upper", x, y);
+					Piece piece = Utils.createPiece(Utils.convertToType(type.toLowerCase()), "upper", x, y);
 					game.getBoard().getPosition(x, y).setPiece(piece);
 					if (piece.getType().equals("king"))
 						game.getUpperPlayer().setKing((King) piece);
 					
 				} else {
-					Piece piece = createPiece(convertToType(type.toLowerCase()), "lower", x, y);
+					Piece piece = Utils.createPiece(Utils.convertToType(type.toLowerCase()), "lower", x, y);
 					game.getBoard().getPosition(x, y).setPiece(piece);
 					if (piece.getType().equals("king"))
 						game.getLowerPlayer().setKing((King) piece);
@@ -184,15 +97,15 @@ public class MiniShogi {
 			for (String upper: parsedInfo.upperCaptures) {
 				if (upper.equals(""))
 					break;
-				String type = convertToType(upper.toLowerCase());
-				Piece piece = createPiece(type, "upper", -1, -1);
+				String type = Utils.convertToType(upper.toLowerCase());
+				Piece piece = Utils.createPiece(type, "upper", -1, -1);
 				game.getUpperPlayer().addCapturedPiece(piece);
 			}
 			for (String lower: parsedInfo.lowerCaptures) {
 				if (lower.equals(""))
 					break;
-				String type = convertToType(lower.toLowerCase());
-				Piece piece = createPiece(type, "lower", -1, -1);
+				String type = Utils.convertToType(lower.toLowerCase());
+				Piece piece = Utils.createPiece(type, "lower", -1, -1);
 				game.getLowerPlayer().addCapturedPiece(piece);
 			}
 			for (String move: parsedInfo.moves) {

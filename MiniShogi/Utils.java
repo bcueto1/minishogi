@@ -118,4 +118,91 @@ public class Utils {
 
         return new TestCase(initialPieces, upperCaptures, lowerCaptures, moves);
     }
+    
+    public static int convertYPosition(String position) {
+	    int yPosition = 0;
+	    String yString = position.substring(0,1);
+	    
+	    switch (yString) {
+		    case "a": yPosition = 0;
+		    		  break;
+		    case "b": yPosition = 1;
+		     		  break;
+		    case "c": yPosition = 2;
+		    		  break;
+		    case "d": yPosition = 3;
+		    		  break;
+		    case "e": yPosition = 4;
+		    		  break;
+		    default:  break;
+	    }
+	    
+	    return yPosition;
+    }
+    
+    public static int convertXPosition(String position) {
+    	int xPosition = 0;
+    	int xInput = Integer.parseInt(position.substring(1,2));
+		
+    	switch (xInput) {
+	    	case 1:  xPosition = 4;
+	    			 break;
+	    	case 2:  xPosition = 3;
+	    			 break;
+	    	case 3:  xPosition = 2;
+	    			 break;
+	    	case 4:  xPosition = 1;
+	    			 break;
+	    	case 5:  xPosition = 0;
+	    			 break;
+	    	default: break;
+    	}
+    	
+    	return xPosition;
+
+    }
+    
+    public static String convertToType(String input) {
+    	
+    	String type = "";
+    	
+    	switch (input) {
+	    	case "b":	type = "bishop";
+	    				break;
+	    	case "g":	type = "goldgeneral";
+	    				break;
+	    	case "k":	type = "king";
+	    				break;
+	    	case "p":	type = "pawn";
+	    				break;
+	    	case "r":	type = "rook";
+	    				break;
+	    	case "s":	type = "silvergeneral";
+	    				break;
+	    	default:	break;
+    	}
+    	
+    	return type;
+    }
+    
+    public static Piece createPiece(String type, String team, int x, int y) {
+    	Piece piece = null;
+    	switch (type) {
+    	case "bishop":	piece = new Bishop(x, y, team);
+    					break;
+    	case "goldgeneral": piece = new GoldGeneral(x, y, team);
+    						break;
+    	case "king":	piece = new King(x, y, team);
+    					break;
+    	case "pawn":	piece = new Pawn(x, y, team);
+    					break;
+    	case "rook":	piece = new Rook(x, y, team);
+    					break;
+    	case "silvergeneral": piece = new SilverGeneral(x, y, team);
+    						  break;
+    	default:		break;
+    	}
+    	
+    	return piece;
+    }
 }
