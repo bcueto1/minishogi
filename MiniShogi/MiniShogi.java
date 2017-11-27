@@ -67,20 +67,37 @@ public class MiniShogi {
     	
     	return type;
     }
-	
-	
-	public static void main(String[] args) {
-		
-		Game game = new Game();
-		Scanner interactive = new Scanner(System.in);
-		boolean isOver = false;
-		boolean lowerMove = true;
-		
-		System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
+    
+    private static Piece createPiece(String type, String team, int x, int y) {
+    	Piece piece = null;
+    	switch (type) {
+    	case "bishop":	piece = new Bishop(x, y, team);
+    					break;
+    	case "goldgeneral": piece = new GoldGeneral(x, y, team);
+    						break;
+    	case "king":	piece = new King(x, y, team);
+    					break;
+    	case "pawn":	piece = new Pawn(x, y, team);
+    					break;
+    	case "rook":	piece = new Rook(x, y, team);
+    					break;
+    	case "silvergeneral": piece = new SilverGeneral(x, y, team);
+    						  break;
+    	default:		break;
+    	}
+    	
+    	return piece;
+    }
+    
+    private static void interactiveMode(Game game) {
+    	
+    	Scanner interactive = new Scanner(System.in);
+    	boolean lowerMove = true;
+    	
+    	System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
 		System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
 		System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
 		System.out.println();
-		
 		
 		while (!game.isOver()) {
 			if (lowerMove)
@@ -93,25 +110,9 @@ public class MiniShogi {
 			
 			String[] parts = userInput.split(" ");
 			if (parts[0].equals("move")) {
-				String begPos = parts[1];
-				String endPos = parts[2];
-				int startX = convertXPosition(begPos);
-				int startY = convertYPosition(begPos);
-				int endX = convertXPosition(endPos);
-				int endY = convertYPosition(endPos);
-				
-				if (parts.length == 4) {
-					if (parts[3].equals("promote"))
-						game.move(startX, startY, endX, endY, true);
-				} else {
-					game.move(startX, startY, endX, endY, false);
-				}
+				readMove(game, parts);
 			} else if (parts[0].equals("drop")) {
-				String type = convertToType(parts[1]);
-				String inputPos = parts[2];
-				int dropY = convertYPosition(inputPos);
-				int dropX = convertXPosition(inputPos);
-				game.drop(type, dropX, dropY);
+				readDrop(game, parts);
 			}
 			
 			if (lowerMove)
@@ -127,6 +128,107 @@ public class MiniShogi {
 		}
 		
 		System.out.println(game.endMessage());
+    }
+    
+    private static void readMove(Game game, String[] parts) {
+    	String begPos = parts[1];
+		String endPos = parts[2];
+		int startX = convertXPosition(begPos);
+		int startY = convertYPosition(begPos);
+		int endX = convertXPosition(endPos);
+		int endY = convertYPosition(endPos);
+		if (parts.length == 4) {
+			if (parts[3].equals("promote"))
+				game.move(startX, startY, endX, endY, true);
+		} else {
+			game.move(startX, startY, endX, endY, false);
+		}
+    }
+    
+    private static void readDrop(Game game, String[] parts) {
+    	String type = convertToType(parts[1]);
+		String inputPos = parts[2];
+		int dropY = convertYPosition(inputPos);
+		int dropX = convertXPosition(inputPos);
+		game.drop(type, dropX, dropY);
+    }
+    
+    private static void fileMode(Game game, String file) {
+    	game.getBoard().resetBoard(game);
+    	String lastMove = "";
+    	boolean lowerMove = true;
+    	try {
+			Utils.TestCase parsedInfo = Utils.parseTestCase(file);
+			for (Utils.InitialPosition initialPiece: parsedInfo.initialPieces) {
+				String type = initialPiece.piece;
+				int x = convertXPosition(initialPiece.position);
+				int y = convertYPosition(initialPiece.position);
+				if (type.equals(type.toUpperCase())) {
+					Piece piece = createPiece(convertToType(type.toLowerCase()), "upper", x, y);
+					game.getBoard().getPosition(x, y).setPiece(piece);
+				} else {
+					Piece piece = createPiece(convertToType(type.toLowerCase()), "lower", x, y);
+					game.getBoard().getPosition(x, y).setPiece(piece);
+				}	
+			}
+			for (String upper: parsedInfo.upperCaptures) {
+				if (upper.equals(""))
+					break;
+				String type = convertToType(upper.toLowerCase());
+				Piece piece = createPiece(type, "upper", -1, -1);
+				game.getUpperPlayer().addCapturedPiece(piece);
+			}
+			for (String lower: parsedInfo.lowerCaptures) {
+				if (lower.equals(""))
+					break;
+				String type = convertToType(lower.toLowerCase());
+				Piece piece = createPiece(type, "lower", -1, -1);
+				game.getLowerPlayer().addCapturedPiece(piece);
+			}
+			for (String move: parsedInfo.moves) {
+				String[] parts = move.split(" ");
+				lastMove = move;
+				if (parts[0].equals("move"))
+					readMove(game, parts);
+				else if (parts[1].equals("drop"))
+					readDrop(game, parts);
+				lowerMove = !lowerMove;
+				if (game.isOver())
+					break;
+			}
+			
+			if (!lowerMove)
+				System.out.println("lower player action: " + lastMove);
+			else
+				System.out.println("UPPER player action: " + lastMove);
+			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
+			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
+			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
+			System.out.println();
+			if (game.isOver())
+				System.out.println(game.endMessage());
+			else {
+				if (lowerMove)
+					System.out.println("lower> ");
+				else
+					System.out.println("upper> ");
+			}
+		} catch (Exception e1) {
+			System.exit(0);
+		}
+
+    }
+	
+	public static void main(String[] args) {
+		
+		Game game = new Game();
+		
+		if (0 < args.length) {
+			String filename = args[0];
+			fileMode(game, filename);
+		} else {
+			interactiveMode(game);
+		}
 
 	}
 
