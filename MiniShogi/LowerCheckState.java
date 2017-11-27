@@ -15,6 +15,8 @@ public class LowerCheckState implements GameState {
 			game.setOver();
 			return;
 		}
+		
+		this.getCurrentPlayer(game).increaseMoves();
 		King king = game.getLowerPlayer().getKing();
 		King otherKing = game.getUpperPlayer().getKing();
 		game.setCheck(false);
@@ -34,11 +36,21 @@ public class LowerCheckState implements GameState {
 				game.setOver();
 				return;
 			}
-				
+			
+			if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+				game.setState(game.getTieGameState());
+				game.setOver();
+				return;
+			}
 			game.setState(game.getUpperCheckState());
 			return;
 		}
 		
+		if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+			game.setState(game.getTieGameState());
+			game.setOver();
+			return;
+		}
 		game.setCheck(false);
 		game.setState(game.getUpperMoveState());
 		
@@ -69,6 +81,8 @@ public class LowerCheckState implements GameState {
 			return;
 		}
 		
+		this.getCurrentPlayer(game).increaseMoves();
+		
 		King king = game.getLowerPlayer().getKing();
 		King otherKing = game.getUpperPlayer().getKing();
 		if (board.isCheck(game, king)) {
@@ -94,10 +108,20 @@ public class LowerCheckState implements GameState {
 				return;
 			}
 			
+			if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+				game.setState(game.getTieGameState());
+				game.setOver();
+				return;
+			}
 			game.setState(game.getUpperCheckState());
 			return;
 		}
 		
+		if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+			game.setState(game.getTieGameState());
+			game.setOver();
+			return;
+		}
 		game.setCheck(false);
 		game.setState(game.getUpperMoveState());
 		

@@ -45,21 +45,11 @@ public class Game {
 	
 	public void move(int x, int y, int newX, int newY, boolean promote) {
 		this.state.move(this, x, y, newX, newY, promote);
-		this.moves++;
-		if (moves == 200) {
-			this.state = this.tieGameState;
-			this.isOver = true;
-		}
 			
 	}
 	
 	public void drop(String type, int x, int y) {
 		this.state.drop(this, type, x, y);
-		this.moves++;
-		if (moves == 200) {
-			this.state = this.tieGameState;
-			this.isOver = true;
-		}
 			
 	}
 	
@@ -88,6 +78,7 @@ public class Game {
 	}
 	
 	public void setOver() {
+		this.inCheck = false;
 		this.isOver = true;
 	}
 	

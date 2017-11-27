@@ -1,5 +1,5 @@
 
-public class Position {
+public class Position implements Cloneable {
 
 	private Piece piece;
 	private int x;
@@ -43,6 +43,10 @@ public class Position {
 		return true;
 
 	}
+	
+	public Position recreate() throws CloneNotSupportedException {
+    	return (Position) this.clone();
+    }
 	
 	
 }

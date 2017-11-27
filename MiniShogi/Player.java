@@ -4,11 +4,13 @@ public class Player {
 
 	private String team;
 	private King king;
+	private int moves;
 	private ArrayList<Piece> captured;
 	
 	public Player(String team) {
 		this.team = team;
 		this.captured = new ArrayList<>();
+		this.moves = 0;
 	}
 	
 	public String getTeam() {
@@ -43,6 +45,14 @@ public class Player {
 			cap += piece.toString() + " ";
 		}
 		return cap;
+	}
+	
+	public int getMoves() {
+		return this.moves;
+	}
+	
+	public void increaseMoves() {
+		this.moves++;
 	}
 	
 }

@@ -140,6 +140,26 @@ public class Utils {
 	    return yPosition;
     }
     
+    public static String yPositionToString(int y) {
+    	String yString = "";
+    	
+    	switch (y) {
+	    	case 0:	yString = "a";
+	    			break;
+	    	case 1:	yString = "b";
+					break;	
+	    	case 2:	yString = "c";
+					break;
+	    	case 3: yString = "d";
+	    			break;
+	    	case 4: yString = "e";
+	    			break;
+	    	default: break;
+    	}
+    	
+    	return yString;
+    }
+    
     public static int convertXPosition(String position) {
     	int xPosition = 0;
     	int xInput = Integer.parseInt(position.substring(1,2));
@@ -160,6 +180,26 @@ public class Utils {
     	
     	return xPosition;
 
+    }
+    
+    public static String xPositionToString(int x) {
+    	String xString = "";
+    	
+    	switch (x) {
+	    	case 0:	xString = "5";
+					break;
+	    	case 1:	xString = "4";
+	    			break;	
+	    	case 2:	xString = "3";
+					break;
+	    	case 3: xString = "2";
+					break;
+	    	case 4: xString = "1";
+					break;
+	    	default: break;
+    	}
+    	
+    	return xString;
     }
     
     public static String convertToType(String input) {

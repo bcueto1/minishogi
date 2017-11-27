@@ -6,8 +6,6 @@ public class UpperCheckState implements GameState {
 		
 		Board board = game.getBoard();
 		
-		
-		
 		try {
 			board.movePiece(game, x, y, newX, newY, promote);
 		} catch (IllegalMoveException e) {
@@ -16,6 +14,8 @@ public class UpperCheckState implements GameState {
 			game.setOver();
 			return;
 		}
+		
+		this.getCurrentPlayer(game).increaseMoves();
 		King king = game.getUpperPlayer().getKing();
 		King otherKing = game.getLowerPlayer().getKing();
 		game.setCheck(false);
@@ -35,10 +35,20 @@ public class UpperCheckState implements GameState {
 				game.setOver();
 				return;
 			}
+			if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+				game.setState(game.getTieGameState());
+				game.setOver();
+				return;
+			}
 			game.setState(game.getLowerCheckState());
 			return;
 		}
 		
+		if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+			game.setState(game.getTieGameState());
+			game.setOver();
+			return;
+		}
 		game.setCheck(false);
 		game.setState(game.getLowerMoveState());
 		
@@ -59,8 +69,6 @@ public class UpperCheckState implements GameState {
 		
 		Board board = game.getBoard();
 		
-		
-		
 		try {
 			board.dropPiece(game, type, x, y);
 		} catch (IllegalMoveException e) {
@@ -69,6 +77,8 @@ public class UpperCheckState implements GameState {
 			game.setOver();
 			return;
 		}
+		
+		this.getCurrentPlayer(game).increaseMoves();
 		King king = game.getUpperPlayer().getKing();
 		King otherKing = game.getLowerPlayer().getKing();
 		if (board.isCheck(game, king)) {
@@ -93,11 +103,20 @@ public class UpperCheckState implements GameState {
 				game.setOver();
 				return;
 			}
-			
+			if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+				game.setState(game.getTieGameState());
+				game.setOver();
+				return;
+			}
 			game.setState(game.getLowerCheckState());
 			return;
 		}
 		
+		if (this.getCurrentPlayer(game).getMoves() == 200 && this.getOtherPlayer(game).getMoves() == 200) {
+			game.setState(game.getTieGameState());
+			game.setOver();
+			return;
+		}
 		game.setCheck(false);
 		game.setState(game.getLowerMoveState());
 		

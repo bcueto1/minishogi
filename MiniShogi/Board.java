@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+
 public class Board {
 
 	private Position[][] positions;
+	private ArrayList<String> availableMoves;
 	
 	public Board() {
 		this.positions = new Position[5][5];
@@ -10,6 +13,8 @@ public class Board {
 				positions[i][j] = pos;
 			}
 		}
+		
+		this.availableMoves = new ArrayList<>();
 	}
 	
 	public Board(Game game) {
@@ -45,6 +50,8 @@ public class Board {
 					positions[i][j].getPiece().updatePossibleMoves(this);
 			}
 		}
+		
+		this.availableMoves = new ArrayList<>();
 	}
 	
 	private boolean checkPosition(Piece piece, int newX, int newY) {
@@ -163,10 +170,27 @@ public class Board {
 		return false;
 	}
 	
+	public void getPossibleMovesInCheck(Game game, Player player) {
+		this.availableMoves.clear();
+		King king = player.getKing();
+		king.updatePossibleMoves(this);
+		king.updateMovesInCheck(this);
+		int x = king.getX();
+		int y = king.getY();
+		for (Position position: king.getMovesInCheck()) {
+			int newX = position.getX();
+			int newY = position.getY();
+			String move = "move " + Utils.yPositionToString(y) + Utils.xPositionToString(x) + " " + Utils.yPositionToString(newY) + Utils.xPositionToString(newX);
+			this.availableMoves.add(move);
+		}
+		
+	}
+	
 	public boolean isCheckmate(Game game) {
-		King otherKing = game.getState().getOtherPlayer(game).getKing();
-		otherKing.updatePossibleMoves(this);
-		if (otherKing.getPossibleMoves().isEmpty()) {
+		King king = game.getState().getOtherPlayer(game).getKing();
+		king.updatePossibleMoves(this);
+		king.updateMovesInCheck(this);
+		if (king.getMovesInCheck().isEmpty()) {
 			return true;
 		}
 		return false;
@@ -213,7 +237,9 @@ public class Board {
 			
 	}
 	
-	
+	public ArrayList<String> getAvailableMoves() {
+		return this.availableMoves;
+	}
 	
 	public Position[][] getPositions() {
 		return this.positions;

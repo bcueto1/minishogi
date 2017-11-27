@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MiniShogi {
@@ -61,12 +62,19 @@ public class MiniShogi {
 			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
 			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
 			if (game.inCheck()) {
-				if (lowerMove)
+				if (lowerMove) {
 					System.out.println("lower player is in check!");
-				else
+					game.getBoard().getPossibleMovesInCheck(game, game.getLowerPlayer());
+				} else {
 					System.out.println("UPPER player is in check!");
+					game.getBoard().getPossibleMovesInCheck(game, game.getUpperPlayer());
+				}
 				System.out.println("Available moves:");
-				
+				ArrayList<String> moves = game.getBoard().getAvailableMoves();
+				java.util.Collections.sort(moves);
+				for (String move: moves) {
+					System.out.println(move);
+				}
 			} else {
 				System.out.println();
 			}
@@ -138,12 +146,19 @@ public class MiniShogi {
 			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
 			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
 			if (game.inCheck()) {
-				if (lowerMove)
+				if (lowerMove) {
 					System.out.println("lower player is in check!");
-				else
+					game.getBoard().getPossibleMovesInCheck(game, game.getLowerPlayer());
+				} else {
 					System.out.println("UPPER player is in check!");
+					game.getBoard().getPossibleMovesInCheck(game, game.getUpperPlayer());
+				}
 				System.out.println("Available moves:");
-				
+				ArrayList<String> moves = game.getBoard().getAvailableMoves();
+				java.util.Collections.sort(moves);
+				for (String move: moves) {
+					System.out.println(move);
+				}
 			} else {
 				System.out.println();
 			}
