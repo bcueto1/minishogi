@@ -3,28 +3,7 @@ import java.util.Scanner;
 
 public class MiniShogi {
 	
-	private static void readMove(Game game, String[] parts) {
-    	String begPos = parts[1];
-		String endPos = parts[2];
-		int startX = Utils.convertXPosition(begPos);
-		int startY = Utils.convertYPosition(begPos);
-		int endX = Utils.convertXPosition(endPos);
-		int endY = Utils.convertYPosition(endPos);
-		if (parts.length == 4) {
-			if (parts[3].equals("promote"))
-				game.move(startX, startY, endX, endY, true);
-		} else {
-			game.move(startX, startY, endX, endY, false);
-		}
-    }
-    
-    private static void readDrop(Game game, String[] parts) {
-    	String type = Utils.convertToType(parts[1]);
-		String inputPos = parts[2];
-		int dropY = Utils.convertYPosition(inputPos);
-		int dropX = Utils.convertXPosition(inputPos);
-		game.drop(type, dropX, dropY);
-    }
+	
     
     private static void interactiveMode(Game game) {
     	
@@ -47,9 +26,9 @@ public class MiniShogi {
 			
 			String[] parts = userInput.split(" ");
 			if (parts[0].equals("move")) {
-				readMove(game, parts);
+				Utils.readMove(game, parts);
 			} else if (parts[0].equals("drop")) {
-				readDrop(game, parts);
+				Utils.readDrop(game, parts);
 			}
 			
 			if (lowerMove)
@@ -64,10 +43,8 @@ public class MiniShogi {
 			if (game.inCheck()) {
 				if (lowerMove) {
 					System.out.println("lower player is in check!");
-					game.getBoard().getPossibleMovesInCheck(game, game.getLowerPlayer());
 				} else {
 					System.out.println("UPPER player is in check!");
-					game.getBoard().getPossibleMovesInCheck(game, game.getUpperPlayer());
 				}
 				System.out.println("Available moves:");
 				ArrayList<String> moves = game.getBoard().getAvailableMoves();
@@ -130,9 +107,9 @@ public class MiniShogi {
 				String[] parts = move.split(" ");
 				lastMove = move;
 				if (parts[0].equals("move"))
-					readMove(game, parts);
+					Utils.readMove(game, parts);
 				else if (parts[0].equals("drop"))
-					readDrop(game, parts);
+					Utils.readDrop(game, parts);
 				lowerMove = !lowerMove;
 				if (game.isOver())
 					break;
@@ -148,10 +125,8 @@ public class MiniShogi {
 			if (game.inCheck()) {
 				if (lowerMove) {
 					System.out.println("lower player is in check!");
-					game.getBoard().getPossibleMovesInCheck(game, game.getLowerPlayer());
 				} else {
 					System.out.println("UPPER player is in check!");
-					game.getBoard().getPossibleMovesInCheck(game, game.getUpperPlayer());
 				}
 				System.out.println("Available moves:");
 				ArrayList<String> moves = game.getBoard().getAvailableMoves();

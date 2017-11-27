@@ -22,6 +22,7 @@ public class LowerMoveState implements GameState {
 		King otherKing = game.getUpperPlayer().getKing();
 		if (board.isCheck(game, otherKing)) {
 			game.setCheck(true);
+			game.getBoard().getPossibleMovesInCheck(game, this.getOtherPlayer(game));
 			if (board.isCheckmate(game)) {
 				game.getLowerWinState().setType("checkmate");
 				game.setState(game.getLowerWinState());
@@ -49,8 +50,6 @@ public class LowerMoveState implements GameState {
 		game.setState(game.getUpperMoveState());
 		
 	}
-	
-	
 
 	@Override
 	public void drop(Game game, String type, int x, int y) {
@@ -71,6 +70,7 @@ public class LowerMoveState implements GameState {
 		Piece piece = board.getPiece(x, y);
 		King otherKing = game.getUpperPlayer().getKing();
 		if (board.isCheck(game, otherKing)) {
+			game.getBoard().getPossibleMovesInCheck(game, this.getOtherPlayer(game));
 			game.setCheck(true);
 			if (board.isCheckmate(game)) {
 				if (piece.getType().equals("pawn")) {

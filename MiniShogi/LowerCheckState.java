@@ -30,6 +30,7 @@ public class LowerCheckState implements GameState {
 		
 		if (board.isCheck(game, otherKing)) {
 			game.setCheck(true);
+			game.getBoard().getPossibleMovesInCheck(game, this.getOtherPlayer(game));
 			if (board.isCheckmate(game)) {
 				game.getLowerWinState().setType("checkmate");
 				game.setState(game.getLowerWinState());
@@ -54,16 +55,6 @@ public class LowerCheckState implements GameState {
 		game.setCheck(false);
 		game.setState(game.getUpperMoveState());
 		
-	}
-
-	@Override
-	public Player getCurrentPlayer(Game game) {
-		return game.getLowerPlayer();
-	}
-
-	@Override
-	public Player getOtherPlayer(Game game) {
-		return game.getUpperPlayer();
 	}
 
 	@Override
@@ -95,6 +86,7 @@ public class LowerCheckState implements GameState {
 		Piece piece = board.getPiece(x, y);
 		if (board.isCheck(game, otherKing)) {
 			game.setCheck(true);
+			game.getBoard().getPossibleMovesInCheck(game, this.getOtherPlayer(game));
 			if (board.isCheckmate(game)) {
 				if (piece.getType().equals("pawn")) {
 					game.getUpperWinState().setType("illegal");
@@ -130,6 +122,16 @@ public class LowerCheckState implements GameState {
 	@Override
 	public String getEndMessage() {
 		return "";
+	}
+	
+	@Override
+	public Player getCurrentPlayer(Game game) {
+		return game.getLowerPlayer();
+	}
+
+	@Override
+	public Player getOtherPlayer(Game game) {
+		return game.getUpperPlayer();
 	}
 
 

@@ -20,7 +20,6 @@ public class UpperCheckState implements GameState {
 		King otherKing = game.getLowerPlayer().getKing();
 		game.setCheck(false);
 		if (board.isCheck(game, king)) {
-			System.out.println("here!");
 			game.getLowerWinState().setType("illegal");
 			game.setState(game.getLowerWinState());
 			game.setOver();
@@ -28,6 +27,7 @@ public class UpperCheckState implements GameState {
 		}
 		
 		if (board.isCheck(game, otherKing)) {
+			game.getBoard().getPossibleMovesInCheck(game, this.getOtherPlayer(game));
 			game.setCheck(true);
 			if (board.isCheckmate(game)) {
 				game.getUpperWinState().setType("checkmate");
@@ -91,6 +91,7 @@ public class UpperCheckState implements GameState {
 		Piece piece = board.getPiece(x, y);
 		if (board.isCheck(game, otherKing)) {
 			game.setCheck(true);
+			game.getBoard().getPossibleMovesInCheck(game, this.getOtherPlayer(game));
 			if (board.isCheckmate(game)) {
 				if (piece.getType().equals("pawn")) {
 					game.getLowerWinState().setType("illegal");

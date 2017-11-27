@@ -119,6 +119,29 @@ public class Utils {
         return new TestCase(initialPieces, upperCaptures, lowerCaptures, moves);
     }
     
+    public static void readMove(Game game, String[] parts) {
+    	String begPos = parts[1];
+		String endPos = parts[2];
+		int startX = Utils.convertXPosition(begPos);
+		int startY = Utils.convertYPosition(begPos);
+		int endX = Utils.convertXPosition(endPos);
+		int endY = Utils.convertYPosition(endPos);
+		if (parts.length == 4) {
+			if (parts[3].equals("promote"))
+				game.move(startX, startY, endX, endY, true);
+		} else {
+			game.move(startX, startY, endX, endY, false);
+		}
+    }
+    
+    public static void readDrop(Game game, String[] parts) {
+    	String type = Utils.convertToType(parts[1]);
+		String inputPos = parts[2];
+		int dropY = Utils.convertYPosition(inputPos);
+		int dropX = Utils.convertXPosition(inputPos);
+		game.drop(type, dropX, dropY);
+    }
+    
     public static int convertYPosition(String position) {
 	    int yPosition = 0;
 	    String yString = position.substring(0,1);

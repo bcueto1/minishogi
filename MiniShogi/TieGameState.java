@@ -5,7 +5,6 @@ public class TieGameState implements GameState {
 	@Override
 	public void move(Game game, int x, int y, int newX, int newY, boolean promote) {
 		return;
-		
 	}
 
 	@Override

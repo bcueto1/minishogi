@@ -43,7 +43,7 @@ public class King extends Piece {
 	public void updateMovesInCheck(Board board) {
 		
 		int xPos = this.getX(), yPos = this.getY();
-		this.possibleMoves.clear();
+		this.availableInCheck.clear();
 		
 		this.checkMoveInCheck(board, xPos + 1, yPos);
 		this.checkMoveInCheck(board, xPos + 1, yPos + 1);
@@ -76,8 +76,7 @@ public class King extends Piece {
 				}
 			}
 		}
-    	if (!this.availableInCheck.contains(positions[newX][newY]))
-    		this.availableInCheck.add(positions[newX][newY]);
+    	this.availableInCheck.add(positions[newX][newY]);
 	}
 	
 	public ArrayList<Position> getMovesInCheck() {
