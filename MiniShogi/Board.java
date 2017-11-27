@@ -20,33 +20,23 @@ public class Board {
 				positions[i][j] = pos;
 			}
 		}
-		
-		Rook upperRook = new Rook(0,0,"upper");
-		Bishop upperBishop = new Bishop(0,1,"upper");
-		SilverGeneral upperSG = new SilverGeneral(0,2,"upper");
-		GoldGeneral upperGG = new GoldGeneral(0,3,"upper");
-		Pawn upperPawn = new Pawn(1,4, "upper");
+
+		this.positions[0][0].setPiece(new Rook(0,0,"upper"));
+		this.positions[0][1].setPiece(new Bishop(0,1,"upper"));
+		this.positions[0][2].setPiece(new SilverGeneral(0,2,"upper"));
+		this.positions[0][3].setPiece(new GoldGeneral(0,3,"upper"));
+		this.positions[1][4].setPiece(new Pawn(1,4, "upper"));
 		King upperKing = new King(0,4, "upper");
-		positions[0][0].setPiece(upperRook);
-		positions[0][1].setPiece(upperBishop);
-		positions[0][2].setPiece(upperSG);
-		positions[0][3].setPiece(upperGG);
-		positions[1][4].setPiece(upperPawn);
-		positions[0][4].setPiece(upperKing);
+		this.positions[0][4].setPiece(upperKing);
 		game.getUpperPlayer().setKing(upperKing);
 
-		Rook lowerRook = new Rook(4,4,"lower");
-		Bishop lowerBishop = new Bishop(4,3,"lower");
-		SilverGeneral lowerSG = new SilverGeneral(4,2,"lower");
-		GoldGeneral lowerGG = new GoldGeneral(4,1,"lower");
-		Pawn lowerPawn = new Pawn(3,0, "lower");
+		this.positions[4][4].setPiece(new Rook(4,4,"lower"));
+		this.positions[4][3].setPiece(new Bishop(4,3,"lower"));
+		this.positions[4][2].setPiece(new SilverGeneral(4,2,"lower"));
+		this.positions[4][1].setPiece(new GoldGeneral(4,1,"lower"));
+		this.positions[3][0].setPiece(new Pawn(3,0, "lower"));
 		King lowerKing = new King(4,0, "lower");
-		positions[4][4].setPiece(lowerRook);
-		positions[4][3].setPiece(lowerBishop);
-		positions[4][2].setPiece(lowerSG);
-		positions[4][1].setPiece(lowerGG);
-		positions[3][0].setPiece(lowerPawn);
-		positions[4][0].setPiece(lowerKing);
+		this.positions[4][0].setPiece(lowerKing);
 		game.getLowerPlayer().setKing(lowerKing);
 		
 		for (int i = 0; i < positions.length; i++) {
@@ -117,6 +107,7 @@ public class Board {
 		Player curPlayer = game.getState().getCurrentPlayer(game);
 		Piece piece = null;
 		try { piece = this.getPiece(x, y).recreate(); } catch (CloneNotSupportedException e) { e.printStackTrace(); }
+		piece.updatePossibleMoves(this);
 		if (!piece.getTeam().equals(curPlayer.getTeam()) || !checkPosition(piece, newX, newY))
 			throw new IllegalMoveException();
 		
@@ -127,8 +118,8 @@ public class Board {
 				throw new IllegalMoveException();
 			this.capturePiece(this.getPiece(newX, newY), curPlayer);
 		}
-			
-		positions[newX][newY].setPiece(piece);
+		
+		this.setPiece(piece, newX, newY);
 		
 		if (this.isPawnPromoted(piece))
 			piece.promote();
@@ -137,7 +128,7 @@ public class Board {
 		
 		
 		piece.updatePossibleMoves(this);
-		this.positions[x][y].removePiece();
+		this.removePiece(x, y);
 		
 		
 	}
@@ -202,12 +193,12 @@ public class Board {
 		piece.setX(x);
 		piece.setY(y);
 		piece.updatePossibleMoves(this);
-		this.positions[x][y].setPiece(piece);
+		this.setPiece(piece, x, y);
 	}
 	
 	
 	
-	public Position[][] getBoard() {
+	public Position[][] getPositions() {
 		return this.positions;
 	}
 	
@@ -221,6 +212,14 @@ public class Board {
 	
 	public boolean hasPiece(int x, int y) {
 		return this.positions[x][y].hasPiece();
+	}
+	
+	private void setPiece(Piece piece, int x, int y) {
+		this.positions[x][y].setPiece(piece);
+	}
+	
+	private void removePiece(int x, int y) {
+		this.positions[x][y].removePiece();
 	}
 	
 	public String[][] getBoardString() {

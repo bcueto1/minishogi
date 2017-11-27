@@ -25,42 +25,34 @@ public class Rook extends Piece {
 		
 		xPos = xPos - 1;
 		while (xPos >= 0) {
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			xPos = xPos - 1;
 		}
 		
 		xPos = this.getX() + 1;
 		while (xPos < 5) {
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			xPos = xPos + 1;
 		}
 		
 		xPos = this.getX();
 		yPos = yPos - 1;
 		while (yPos >= 0) {
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			yPos = yPos - 1;
 		}
 		
 		yPos = this.getY() + 1;
 		while (yPos < 5) {
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			yPos = yPos + 1;
 		}
 		

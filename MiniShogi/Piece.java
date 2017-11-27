@@ -70,7 +70,7 @@ public abstract class Piece implements Cloneable {
     }
     
     protected void checkPossibleMove(Board board, int newX, int newY) {
-    	Position[][] positions = board.getBoard();
+    	Position[][] positions = board.getPositions();
     	if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
     		return;
     	

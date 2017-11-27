@@ -1,6 +1,29 @@
 import java.util.Scanner;
 
 public class MiniShogi {
+	
+	private static void readMove(Game game, String[] parts) {
+    	String begPos = parts[1];
+		String endPos = parts[2];
+		int startX = Utils.convertXPosition(begPos);
+		int startY = Utils.convertYPosition(begPos);
+		int endX = Utils.convertXPosition(endPos);
+		int endY = Utils.convertYPosition(endPos);
+		if (parts.length == 4) {
+			if (parts[3].equals("promote"))
+				game.move(startX, startY, endX, endY, true);
+		} else {
+			game.move(startX, startY, endX, endY, false);
+		}
+    }
+    
+    private static void readDrop(Game game, String[] parts) {
+    	String type = Utils.convertToType(parts[1]);
+		String inputPos = parts[2];
+		int dropY = Utils.convertYPosition(inputPos);
+		int dropX = Utils.convertXPosition(inputPos);
+		game.drop(type, dropX, dropY);
+    }
     
     private static void interactiveMode(Game game) {
     	
@@ -43,29 +66,6 @@ public class MiniShogi {
 		System.out.println(game.endMessage());
     }
     
-    private static void readMove(Game game, String[] parts) {
-    	String begPos = parts[1];
-		String endPos = parts[2];
-		int startX = Utils.convertXPosition(begPos);
-		int startY = Utils.convertYPosition(begPos);
-		int endX = Utils.convertXPosition(endPos);
-		int endY = Utils.convertYPosition(endPos);
-		if (parts.length == 4) {
-			if (parts[3].equals("promote"))
-				game.move(startX, startY, endX, endY, true);
-		} else {
-			game.move(startX, startY, endX, endY, false);
-		}
-    }
-    
-    private static void readDrop(Game game, String[] parts) {
-    	String type = Utils.convertToType(parts[1]);
-		String inputPos = parts[2];
-		int dropY = Utils.convertYPosition(inputPos);
-		int dropX = Utils.convertXPosition(inputPos);
-		game.drop(type, dropX, dropY);
-    }
-    
     private static void fileMode(Game game, String file) {
     	String lastMove = "";
     	boolean lowerMove = true;
@@ -88,10 +88,10 @@ public class MiniShogi {
 						game.getLowerPlayer().setKing((King) piece);
 				}	
 			}
-			for (int i = 0; i < game.getBoard().getBoard().length; i++) {
-				for (int j = 0; j < game.getBoard().getBoard().length; j++) {
-					if (game.getBoard().getBoard()[i][j].hasPiece())
-						game.getBoard().getBoard()[i][j].getPiece().updatePossibleMoves(game.getBoard());
+			for (int i = 0; i < game.getBoard().getPositions().length; i++) {
+				for (int j = 0; j < game.getBoard().getPositions().length; j++) {
+					if (game.getBoard().getPositions()[i][j].hasPiece())
+						game.getBoard().getPositions()[i][j].getPiece().updatePossibleMoves(game.getBoard());
 				}
 			}
 			for (String upper: parsedInfo.upperCaptures) {

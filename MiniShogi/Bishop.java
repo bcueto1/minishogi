@@ -4,7 +4,6 @@ public class Bishop extends Piece {
 	public Bishop(int xPosition, int yPosition, String team) {
 		super(xPosition, yPosition, team);
 		this.setType("bishop");
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -27,11 +26,9 @@ public class Bishop extends Piece {
 		xPos = xPos + 1;
 		yPos = yPos + 1;
 		while(xPos < 5 && yPos < 5) {
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			xPos = xPos + 1;
 			yPos = yPos + 1;
 		}
@@ -39,13 +36,9 @@ public class Bishop extends Piece {
 		xPos = this.getX() + 1;
 		yPos = this.getY() - 1;
 		while(xPos < 5 && yPos >= 0) {
-			// If the position actually has a piece
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			} 
-			
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			xPos = xPos + 1;
 			yPos = yPos - 1;
 		}
@@ -53,13 +46,10 @@ public class Bishop extends Piece {
 		xPos = this.getX() - 1;
 		yPos = this.getY() + 1;
 		while(xPos >= 0 && yPos < 5) {
-			// If the position actually has a piece
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			xPos = xPos - 1;
 			yPos = yPos + 1;
 		}
@@ -67,13 +57,10 @@ public class Bishop extends Piece {
 		xPos = this.getX() - 1;
 		yPos = this.getY() - 1;
 		while(xPos >= 0 && yPos >= 0) {
-			// If the position actually has a piece
-			if (board.hasPiece(xPos, yPos)) {
-				checkPossibleMove(board, xPos, yPos);
-				break;
-			}
 			
 			checkPossibleMove(board, xPos, yPos);
+			if (board.hasPiece(xPos, yPos))
+				break;
 			xPos = xPos - 1;
 			yPos = yPos - 1;
 		}

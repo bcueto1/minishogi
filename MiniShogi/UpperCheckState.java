@@ -18,8 +18,8 @@ public class UpperCheckState implements GameState {
 		}
 		
 		Position thisPosition = board.getPosition(upperKing.getX(), upperKing.getY());
-		for (int i = 0; i < board.getBoard().length; i++) {
-			for (int j = 0; j < board.getBoard()[0].length; j++) {
+		for (int i = 0; i < board.getPositions().length; i++) {
+			for (int j = 0; j < board.getPositions()[0].length; j++) {
 				if (!board.hasPiece(i, j))
 					continue;
 				Piece piece = board.getPiece(i,j);
@@ -81,8 +81,8 @@ public class UpperCheckState implements GameState {
 		}
 		
 		Position thisPosition = board.getPosition(king.getX(), king.getY());
-		for (int i = 0; i < board.getBoard().length; i++) {
-			for (int j = 0; j < board.getBoard()[0].length; j++) {
+		for (int i = 0; i < board.getPositions().length; i++) {
+			for (int j = 0; j < board.getPositions()[0].length; j++) {
 				if (!board.hasPiece(i, j))
 					continue;
 				Piece temp = board.getPiece(i, j);

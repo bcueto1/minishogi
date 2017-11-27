@@ -25,14 +25,13 @@ public class King extends Piece {
 	
 	@Override
 	protected void checkPossibleMove(Board board, int newX, int newY) {
-		Position[][] positions = board.getBoard();
+		Position[][] positions = board.getPositions();
 		if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
 			return;
 		if (board.hasPiece(newX, newY)) {
     		if (positions[newX][newY].getPiece().getType().equals("king"))
     			return;
     	}
-		
 		
 		
 		Position thisPosition = board.getPosition(newX, newY);
