@@ -17,11 +17,14 @@ public class Game {
 	private TieGameState tieGameState;
 	private GameState state;
 	
-	public Game() {
+	public Game(boolean interactive) {
 		this.moves = 0;
 		this.upperPlayer = new Player("upper");
 		this.lowerPlayer = new Player("lower");
-		this.board = new Board(this);
+		if (interactive)
+			this.board = new Board(this);
+		else
+			this.board = new Board();
 		this.isOver = false;
 		
 		this.lowerMoveState = new LowerMoveState();

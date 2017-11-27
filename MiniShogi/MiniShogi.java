@@ -154,7 +154,6 @@ public class MiniShogi {
     }
     
     private static void fileMode(Game game, String file) {
-    	game.getBoard().resetBoard(game);
     	String lastMove = "";
     	boolean lowerMove = true;
     	try {
@@ -166,10 +165,21 @@ public class MiniShogi {
 				if (type.equals(type.toUpperCase())) {
 					Piece piece = createPiece(convertToType(type.toLowerCase()), "upper", x, y);
 					game.getBoard().getPosition(x, y).setPiece(piece);
+					if (piece.getType().equals("king"))
+						game.getUpperPlayer().setKing((King) piece);
+					
 				} else {
 					Piece piece = createPiece(convertToType(type.toLowerCase()), "lower", x, y);
 					game.getBoard().getPosition(x, y).setPiece(piece);
+					if (piece.getType().equals("king"))
+						game.getLowerPlayer().setKing((King) piece);
 				}	
+			}
+			for (int i = 0; i < game.getBoard().getBoard().length; i++) {
+				for (int j = 0; j < game.getBoard().getBoard().length; j++) {
+					if (game.getBoard().getBoard()[i][j].hasPiece())
+						game.getBoard().getBoard()[i][j].getPiece().updatePossibleMoves(game.getBoard());
+				}
 			}
 			for (String upper: parsedInfo.upperCaptures) {
 				if (upper.equals(""))
@@ -190,7 +200,7 @@ public class MiniShogi {
 				lastMove = move;
 				if (parts[0].equals("move"))
 					readMove(game, parts);
-				else if (parts[1].equals("drop"))
+				else if (parts[0].equals("drop"))
 					readDrop(game, parts);
 				lowerMove = !lowerMove;
 				if (game.isOver())
@@ -221,12 +231,14 @@ public class MiniShogi {
 	
 	public static void main(String[] args) {
 		
-		Game game = new Game();
+		Game game;
 		
 		if (0 < args.length) {
+			game = new Game(false);
 			String filename = args[0];
 			fileMode(game, filename);
 		} else {
+			game = new Game(true);
 			interactiveMode(game);
 		}
 

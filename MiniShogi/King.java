@@ -31,8 +31,6 @@ public class King extends Piece {
 		if (board.hasPiece(newX, newY)) {
     		if (positions[newX][newY].getPiece().getType().equals("king"))
     			return;
-    		if (positions[newX][newY].getPiece().getTeam().equals(this.getTeam()))
-    			return;
     	}
 		
 		

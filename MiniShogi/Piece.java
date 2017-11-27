@@ -73,10 +73,6 @@ public abstract class Piece implements Cloneable {
     	Position[][] positions = board.getBoard();
     	if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
     		return;
-    	if (board.hasPiece(newX, newY)) {
-    		if (positions[newX][newY].getPiece().getTeam().equals(this.getTeam()))
-    			return;
-    	}
     	
 		this.possibleMoves.add(positions[newX][newY]);
 	}

@@ -2,15 +2,14 @@ public class Board {
 
 	private Position[][] positions;
 	
-	public void resetBoard(Game game) {
-		for (int i = 0; i < this.positions.length; i++) {
-			for (int j = 0; j < this.positions[0].length; j++) {
-				this.positions[i][j].removePiece();
+	public Board() {
+		this.positions = new Position[5][5];
+		for (int i = 0; i < positions.length; i++) {
+			for (int j = 0; j < positions[0].length; j++) {
+				Position pos = new Position(null, i,j);
+				positions[i][j] = pos;
 			}
 		}
-		game.getUpperPlayer().setKing(null);
-		game.getLowerPlayer().setKing(null);
-		
 	}
 	
 	public Board(Game game) {
@@ -123,9 +122,12 @@ public class Board {
 		
 		piece.setX(newX);
 		piece.setY(newY);
-		if (this.hasPiece(newX, newY))
+		if (this.hasPiece(newX, newY)) {
+			if (this.getPiece(newX, newY).getTeam().equals(piece.getTeam())) 
+				throw new IllegalMoveException();
 			this.capturePiece(this.getPiece(newX, newY), curPlayer);
-		
+		}
+			
 		positions[newX][newY].setPiece(piece);
 		
 		if (this.isPawnPromoted(piece))
