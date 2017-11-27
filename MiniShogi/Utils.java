@@ -119,6 +119,12 @@ public class Utils {
         return new TestCase(initialPieces, upperCaptures, lowerCaptures, moves);
     }
     
+    public static void printBoardAndCaptures(Game game) {
+		System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
+		System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
+		System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
+	}
+    
     public static void readMove(Game game, String[] parts) {
     	String begPos = parts[1];
 		String endPos = parts[2];

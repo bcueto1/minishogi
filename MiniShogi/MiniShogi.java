@@ -2,17 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MiniShogi {
-	
-	
     
     private static void interactiveMode(Game game) {
     	
     	Scanner interactive = new Scanner(System.in);
     	boolean lowerMove = true;
     	
-    	System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
-		System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
-		System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
+    	Utils.printBoardAndCaptures(game);
 		System.out.println();
 		
 		while (!game.isOver()) {
@@ -37,9 +33,7 @@ public class MiniShogi {
 				System.out.println("UPPER player action: " + userInput );
 			
 			lowerMove = !lowerMove;
-			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
-			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
-			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
+			Utils.printBoardAndCaptures(game);
 			if (game.inCheck()) {
 				if (lowerMove) {
 					System.out.println("lower player is in check!");
@@ -119,9 +113,7 @@ public class MiniShogi {
 				System.out.println("lower player action: " + lastMove);
 			else
 				System.out.println("UPPER player action: " + lastMove);
-			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
-			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
-			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
+			Utils.printBoardAndCaptures(game);
 			if (game.inCheck()) {
 				if (lowerMove) {
 					System.out.println("lower player is in check!");
