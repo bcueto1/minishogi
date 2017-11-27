@@ -70,30 +70,30 @@ public class Board {
 		curr.addCapturedPiece(cap);
 	}
 	
-	private boolean isPawnPromoted(Piece piece) {
+	private boolean isPawnPromoted(Piece piece, int newX) {
 		if (!piece.getType().equals("pawn"))
 			return false;
 		if (piece.isPromoted())
 			return false;
-		if (piece.getTeam().equals("upper") && piece.getX() == 4)
+		if (piece.getTeam().equals("upper") && newX == 4)
 			return true;
 		
-		if (piece.getTeam().equals("lower") && piece.getX() == 0)
+		if (piece.getTeam().equals("lower") && newX == 0)
 			return true;
 			
 		return false;
 	}
 	
-	private void promotePiece(Piece piece) throws IllegalMoveException {
-		if (piece.getType().equals("king") || piece.isPromoted())
+	private void promotePiece(Piece piece, int newX) throws IllegalMoveException {
+		if (piece.getType().equals("king") || piece.getType().equals("goldgeneral") || piece.isPromoted())
 			throw new IllegalMoveException();
 		if (piece.getTeam().equals("upper")) {
-			if (piece.getX() == 4)
+			if (newX == 4)
 				piece.promote();
 			else
 				throw new IllegalMoveException();
 		} else if (piece.getTeam().equals("lower")) {
-			if (piece.getX() == 0)
+			if (newX == 0)
 				piece.promote();
 			else
 				throw new IllegalMoveException();
@@ -111,8 +111,12 @@ public class Board {
 		if (!piece.getTeam().equals(curPlayer.getTeam()) || !checkPosition(piece, newX, newY))
 			throw new IllegalMoveException();
 		
-		piece.setX(newX);
-		piece.setY(newY);
+		if (this.isPawnPromoted(piece, newX)) {
+			piece.promote();
+		} else if (promote) {
+			this.promotePiece(piece, newX);
+		}
+		
 		if (this.hasPiece(newX, newY)) {
 			if (this.getPiece(newX, newY).getTeam().equals(piece.getTeam())) 
 				throw new IllegalMoveException();
@@ -120,22 +124,23 @@ public class Board {
 		}
 		
 		this.setPiece(piece, newX, newY);
-		
-		if (this.isPawnPromoted(piece))
-			piece.promote();
-		if (promote)
-			this.promotePiece(piece);
-		
-		
 		piece.updatePossibleMoves(this);
+		if (piece.getType().equals("king")) {
+			curPlayer.setKing((King) piece);
+		}
 		this.removePiece(x, y);
+		if (this.isCheck(game, curPlayer.getKing())) {
+			this.setPiece(piece, x, y);
+			this.removePiece(newX, newY);
+			throw new IllegalMoveException();
+		}
+			
 		
 		
 	}
 	
-	public boolean isCheck(Game game) {
+	public boolean isCheck(Game game, King king) {
 		
-		King king = game.getState().getOtherPlayer(game).getKing();
 		for (int i = 0; i < positions.length; i++) {
 			for (int j = 0; j < positions[0].length; j++) {
 				if (!this.hasPiece(i, j))
@@ -198,10 +203,14 @@ public class Board {
 		if (piece == null)
 			throw new IllegalMoveException();
 		
-		piece.setX(x);
-		piece.setY(y);
 		piece.updatePossibleMoves(this);
 		this.setPiece(piece, x, y);
+		
+		if (this.isCheck(game, player.getKing())) {
+			this.removePiece(x, y);
+			throw new IllegalMoveException();
+		}
+			
 	}
 	
 	
@@ -224,6 +233,8 @@ public class Board {
 	
 	private void setPiece(Piece piece, int x, int y) {
 		this.positions[x][y].setPiece(piece);
+		piece.setX(x);
+		piece.setY(y);
 	}
 	
 	private void removePiece(int x, int y) {

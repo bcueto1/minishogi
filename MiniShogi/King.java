@@ -22,40 +22,6 @@ public class King extends Piece {
 		checkPossibleMove(board, xPos, yPos - 1);
 		
 	}
-	
-	@Override
-	protected void checkPossibleMove(Board board, int newX, int newY) {
-		Position[][] positions = board.getPositions();
-		if (newX < 0 || newX >= 5 || newY < 0 || newY >= 5)
-			return;
-		if (board.hasPiece(newX, newY)) {
-    		if (positions[newX][newY].getPiece().getType().equals("king"))
-    			return;
-    	}
-		
-		
-		Position thisPosition = board.getPosition(newX, newY);
-		for (int i = 0; i < positions.length; i++) {
-			for (int j = 0; j < positions[0].length; j++) {
-				if (!board.hasPiece(i, j))
-					continue;
-				Piece piece = positions[i][j].getPiece();
-				if (!piece.getTeam().equals(this.getTeam())) {
-					for (Position danger: piece.getPossibleMoves()) {
-						if (thisPosition.equals(danger))
-							return;
-					}
-				}
-				
-			}
-		}
-		
-		
-		this.possibleMoves.add(positions[newX][newY]);
-		
-		
-	}
-
 
 	@Override
 	public String toString() {

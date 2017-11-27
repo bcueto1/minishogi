@@ -32,8 +32,10 @@ public class Player {
 	}
 	
 	public void setKing(King king) {
+		this.king = null;
 		this.king = king;
 	}
+	
 	
 	public String capturedString() {
 		String cap = "";

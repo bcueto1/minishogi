@@ -6,6 +6,7 @@ public class Game {
     private Board board;
     private Player upperPlayer;
 	private Player lowerPlayer;
+	private boolean inCheck;
 	private boolean isOver;
 	
 	private LowerMoveState lowerMoveState;
@@ -25,6 +26,7 @@ public class Game {
 			this.board = new Board(this);
 		else
 			this.board = new Board();
+		this.inCheck = false;
 		this.isOver = false;
 		
 		this.lowerMoveState = new LowerMoveState();
@@ -87,6 +89,14 @@ public class Game {
 	
 	public void setOver() {
 		this.isOver = true;
+	}
+	
+	public boolean inCheck() {
+		return this.inCheck;
+	}
+	
+	public void setCheck(boolean is) {
+		this.inCheck = is;
 	}
 	
 	public LowerMoveState getLowerMoveState() {

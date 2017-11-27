@@ -6,7 +6,7 @@ public class UpperCheckState implements GameState {
 		
 		Board board = game.getBoard();
 		
-		King upperKing = game.getUpperPlayer().getKing();
+		
 		
 		try {
 			board.movePiece(game, x, y, newX, newY, promote);
@@ -16,29 +16,19 @@ public class UpperCheckState implements GameState {
 			game.setOver();
 			return;
 		}
-		
-		Position thisPosition = board.getPosition(upperKing.getX(), upperKing.getY());
-		for (int i = 0; i < board.getPositions().length; i++) {
-			for (int j = 0; j < board.getPositions()[0].length; j++) {
-				if (!board.hasPiece(i, j))
-					continue;
-				Piece piece = board.getPiece(i,j);
-				if (piece.getTeam().equals("lower")) {
-					piece.updatePossibleMoves(board);
-					for (Position danger: piece.getPossibleMoves()) {
-						if (thisPosition.equals(danger)) {
-							game.getLowerWinState().setType("illegal");
-							game.setState(game.getLowerWinState());
-							game.setOver();
-							return;
-						}
-					}
-				}
-				
-			}
+		King king = game.getUpperPlayer().getKing();
+		King otherKing = game.getLowerPlayer().getKing();
+		game.setCheck(false);
+		if (board.isCheck(game, king)) {
+			System.out.println("here!");
+			game.getLowerWinState().setType("illegal");
+			game.setState(game.getLowerWinState());
+			game.setOver();
+			return;
 		}
 		
-		if (board.isCheck(game)) {
+		if (board.isCheck(game, otherKing)) {
+			game.setCheck(true);
 			if (board.isCheckmate(game)) {
 				game.getUpperWinState().setType("checkmate");
 				game.setState(game.getUpperWinState());
@@ -49,6 +39,7 @@ public class UpperCheckState implements GameState {
 			return;
 		}
 		
+		game.setCheck(false);
 		game.setState(game.getLowerMoveState());
 		
 	}
@@ -68,7 +59,7 @@ public class UpperCheckState implements GameState {
 		
 		Board board = game.getBoard();
 		
-		King king = game.getUpperPlayer().getKing();
+		
 		
 		try {
 			board.dropPiece(game, type, x, y);
@@ -78,37 +69,25 @@ public class UpperCheckState implements GameState {
 			game.setOver();
 			return;
 		}
-		
-		Position thisPosition = board.getPosition(king.getX(), king.getY());
-		for (int i = 0; i < board.getPositions().length; i++) {
-			for (int j = 0; j < board.getPositions()[0].length; j++) {
-				if (!board.hasPiece(i, j))
-					continue;
-				Piece temp = board.getPiece(i, j);
-				if (temp.getTeam().equals("lower")) {
-					temp.updatePossibleMoves(board);
-					for (Position danger: temp.getPossibleMoves()) {
-						if (thisPosition.equals(danger)) {
-							game.getLowerWinState().setType("illegal");
-							game.setState(game.getLowerWinState());
-							game.setOver();
-							return;
-						}
-					}
-				}
-				
-			}
+		King king = game.getUpperPlayer().getKing();
+		King otherKing = game.getLowerPlayer().getKing();
+		if (board.isCheck(game, king)) {
+			game.getLowerWinState().setType("illegal");
+			game.setState(game.getLowerWinState());
+			game.setOver();
+			return;
 		}
 		
 		Piece piece = board.getPiece(x, y);
-		if (board.isCheck(game)) {
-			if (board.isCheckmate(game) && piece.getType().equals("pawn")) {
-				game.getLowerWinState().setType("illegal");
-				game.setState(game.getLowerWinState());
-				game.setOver();
-				return;
-			}
+		if (board.isCheck(game, otherKing)) {
+			game.setCheck(true);
 			if (board.isCheckmate(game)) {
+				if (piece.getType().equals("pawn")) {
+					game.getLowerWinState().setType("illegal");
+					game.setState(game.getLowerWinState());
+					game.setOver();
+					return;
+				}
 				game.getUpperWinState().setType("checkmate");
 				game.setState(game.getUpperWinState());
 				game.setOver();
@@ -119,6 +98,7 @@ public class UpperCheckState implements GameState {
 			return;
 		}
 		
+		game.setCheck(false);
 		game.setState(game.getLowerMoveState());
 		
 	}

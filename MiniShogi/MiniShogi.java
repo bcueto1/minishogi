@@ -39,7 +39,7 @@ public class MiniShogi {
 			if (lowerMove)
 				System.out.print("lower> ");
 			else
-				System.out.print("upper> ");
+				System.out.print("UPPER> ");
 			String userInput = interactive.nextLine();
 			
 			System.out.println();
@@ -56,11 +56,21 @@ public class MiniShogi {
 			else
 				System.out.println("UPPER player action: " + userInput );
 			
+			lowerMove = !lowerMove;
 			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
 			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
 			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
-			System.out.println();
-			lowerMove = !lowerMove;
+			if (game.inCheck()) {
+				if (lowerMove)
+					System.out.println("lower player is in check!");
+				else
+					System.out.println("UPPER player is in check!");
+				System.out.println("Available moves:");
+				
+			} else {
+				System.out.println();
+			}
+			
 		}
 		
 		System.out.println(game.endMessage());
@@ -127,14 +137,23 @@ public class MiniShogi {
 			System.out.println(Utils.stringifyBoard(game.getBoard().getBoardString()));
 			System.out.println("Captures UPPER: " + game.getUpperPlayer().capturedString());
 			System.out.println("Captures lower: " + game.getLowerPlayer().capturedString());
-			System.out.println();
+			if (game.inCheck()) {
+				if (lowerMove)
+					System.out.println("lower player is in check!");
+				else
+					System.out.println("UPPER player is in check!");
+				System.out.println("Available moves:");
+				
+			} else {
+				System.out.println();
+			}
 			if (game.isOver())
 				System.out.println(game.endMessage());
 			else {
 				if (lowerMove)
 					System.out.println("lower> ");
 				else
-					System.out.println("upper> ");
+					System.out.println("UPPER> ");
 			}
 		} catch (Exception e1) {
 			System.exit(0);

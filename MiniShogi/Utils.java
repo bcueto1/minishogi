@@ -169,15 +169,23 @@ public class Utils {
     	switch (input) {
 	    	case "b":	type = "bishop";
 	    				break;
+	    	case "+b":	type = "pBishop";
+	    				break;
 	    	case "g":	type = "goldgeneral";
 	    				break;
 	    	case "k":	type = "king";
 	    				break;
 	    	case "p":	type = "pawn";
 	    				break;
+	    	case "+p":	type = "pPawn";
+	    				break;
 	    	case "r":	type = "rook";
 	    				break;
+	    	case "+r":	type = "pRook";
+	    				break;
 	    	case "s":	type = "silvergeneral";
+	    				break;
+	    	case "+s":	type = "pSilvergeneral";
 	    				break;
 	    	default:	break;
     	}
@@ -188,19 +196,42 @@ public class Utils {
     public static Piece createPiece(String type, String team, int x, int y) {
     	Piece piece = null;
     	switch (type) {
-    	case "bishop":	piece = new Bishop(x, y, team);
-    					break;
-    	case "goldgeneral": piece = new GoldGeneral(x, y, team);
-    						break;
-    	case "king":	piece = new King(x, y, team);
-    					break;
-    	case "pawn":	piece = new Pawn(x, y, team);
-    					break;
-    	case "rook":	piece = new Rook(x, y, team);
-    					break;
-    	case "silvergeneral": piece = new SilverGeneral(x, y, team);
-    						  break;
-    	default:		break;
+	    	case "bishop":		
+	    		piece = new Bishop(x, y, team);
+	    		break;
+	    	case "pBishop":		
+	    		piece = new Bishop(x, y, team);
+	    		piece.promote();
+	    		break;
+	    	case "goldgeneral": 
+	    		piece = new GoldGeneral(x, y, team);
+	    		break;
+	    	case "king":			
+	    		piece = new King(x, y, team);
+	    		break;
+	    	case "pawn":			
+	    		piece = new Pawn(x, y, team);
+	    		break;
+	    	case "pPawn":		
+	    		piece = new Pawn(x, y, team);
+	    		piece.promote();
+	    		break;
+	    	case "rook":	
+	    		piece = new Rook(x, y, team);
+	    		break;
+	    	case "pRook":	
+	    		piece = new Rook(x, y, team);
+	    		piece.promote();
+	    		break;
+	    	case "silvergeneral": 
+	    		piece = new SilverGeneral(x, y, team);
+	    		break;
+	    	case "pSilvergeneral": 
+	    		piece = new SilverGeneral(x, y, team);
+	    		piece.promote();
+	    		break;
+	    	default:		
+	    		break;
     	}
     	
     	return piece;

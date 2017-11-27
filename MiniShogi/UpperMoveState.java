@@ -9,6 +9,7 @@ public class UpperMoveState implements GameState {
 		
 		Board board = game.getBoard();
 		
+		
 		try {
 			board.movePiece(game, x, y, newX, newY, promote);
 		} catch (IllegalMoveException e) {
@@ -17,9 +18,10 @@ public class UpperMoveState implements GameState {
 			game.setOver();
 			return;
 		}
-		
-		Piece piece = board.getPiece(newX, newY);
-		if (board.isCheck(game)) {
+
+		King otherKing = game.getLowerPlayer().getKing();		
+		if (board.isCheck(game, otherKing)) {
+			game.setCheck(true);
 			if (board.isCheckmate(game)) {
 				game.getUpperWinState().setType("checkmate");
 				game.setState(game.getUpperWinState());
@@ -30,6 +32,7 @@ public class UpperMoveState implements GameState {
 			return;
 		}
 		
+		game.setCheck(false);
 		game.setState(game.getLowerMoveState());
 		
 	}
@@ -48,6 +51,8 @@ public class UpperMoveState implements GameState {
 	public void drop(Game game, String type, int x, int y) {
 		
 		Board board = game.getBoard();
+		
+		
 		try {
 			board.dropPiece(game, type, x, y);
 		} catch (IllegalMoveException e) {
@@ -56,16 +61,17 @@ public class UpperMoveState implements GameState {
 			game.setOver();
 			return;
 		}
-		
+		King otherKing = game.getLowerPlayer().getKing();
 		Piece piece = board.getPiece(x, y);
-		if (board.isCheck(game)) {
-			if (board.isCheckmate(game) && piece.getType().equals("pawn")) {
-				game.getLowerWinState().setType("illegal");
-				game.setState(game.getLowerWinState());
-				game.setOver();
-				return;
-			}
+		if (board.isCheck(game, otherKing)) {
+			game.setCheck(true);
 			if (board.isCheckmate(game)) {
+				if (piece.getType().equals("pawn")) {
+					game.getLowerWinState().setType("illegal");
+					game.setState(game.getLowerWinState());
+					game.setOver();
+					return;
+				}
 				game.getUpperWinState().setType("checkmate");
 				game.setState(game.getUpperWinState());
 				game.setOver();
@@ -76,6 +82,7 @@ public class UpperMoveState implements GameState {
 			return;
 		}
 		
+		game.setCheck(false);
 		game.setState(game.getLowerMoveState());
 		
 	}
