@@ -1,5 +1,4 @@
-# box-take-home
-Box Take-Home-Exercise
+# MiniShogi
 
 To Compile In Interactive Mode:
 ```sh
